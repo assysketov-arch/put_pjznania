@@ -6,8 +6,7 @@
 <title>Жизнь как познание — Санкт-Петербург</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,500&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --cream: #f5f1ea;
@@ -15,1031 +14,472 @@
   --green: #1a5c2e;
   --gold: #c9a84c;
   --fog: #c3afe1;
-  --fog-dark: #6a4d9f;
   --muted: #8a7f6e;
   --border: rgba(26,22,16,0.1);
 }
-
 * { margin:0; padding:0; box-sizing:border-box; }
-
 html { scroll-behavior: smooth; }
+body { background:var(--cream); color:var(--dark); font-family:'Onest',sans-serif; overflow-x:hidden; }
 
-body {
-  background: var(--cream);
-  color: var(--dark);
-  font-family: 'Onest', sans-serif;
-  overflow-x: hidden;
-}
-
-/* ── FADE IN ON SCROLL ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-img {
-  opacity: 0;
-  transform: scale(1.04);
-  transition: opacity 1s ease, transform 1.2s ease;
-}
-.reveal-img.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* ── NAV ── */
+/* NAV */
 nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 20px 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(245,241,234,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 0.5px solid transparent;
-  transition: border-color 0.3s;
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  padding:18px 48px;
+  display:flex; justify-content:space-between; align-items:center;
+  background:rgba(245,241,234,0.94);
+  backdrop-filter:blur(10px);
+  border-bottom:0.5px solid transparent;
+  transition:border-color 0.3s;
 }
-nav.scrolled { border-bottom-color: var(--border); }
-.nav-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 16px;
-  color: var(--dark);
-  letter-spacing: 0.04em;
-}
-.nav-links {
-  display: flex;
-  gap: 32px;
-  list-style: none;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.nav-links a { color: inherit; text-decoration: none; transition: color 0.2s; }
-.nav-links a:hover { color: var(--dark); }
-.nav-cta {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--green);
-  border: 0.5px solid var(--green);
-  padding: 8px 20px;
-  text-decoration: none;
-  transition: background 0.2s, color 0.2s;
-}
-.nav-cta:hover { background: var(--green); color: #fff; }
+nav.sc { border-bottom-color:var(--border); }
+.nl { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px; color:var(--dark); }
+.nr { display:flex; gap:28px; list-style:none; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; }
+.nr a { color:var(--muted); text-decoration:none; transition:color 0.2s; }
+.nr a:hover { color:var(--dark); }
+.nc { font-size:11px; letter-spacing:0.13em; text-transform:uppercase; color:var(--green); border:0.5px solid var(--green); padding:8px 18px; text-decoration:none; transition:all 0.2s; }
+.nc:hover { background:var(--green); color:#fff; }
 
-/* ── HERO ── */
+/* HERO */
 #hero {
-  min-height: 100vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
+  position:relative; min-height:100vh;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  overflow:hidden; cursor:crosshair;
 }
 
-/* Photo mosaic background */
-.hero-mosaic {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr 1fr 0.9fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 3px;
-  z-index: 1;
+/* mosaic — 4 images only, no animation */
+.mosaic {
+  position:absolute; inset:0; z-index:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:2px;
+}
+.mosaic img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter:brightness(0.38) grayscale(15%);
 }
 
-.mosaic-cell {
-  position: relative;
-  overflow: hidden;
+.hero-ov {
+  position:absolute; inset:0; z-index:2;
+  background:linear-gradient(170deg, rgba(6,4,2,0.6) 0%, rgba(6,4,2,0.3) 50%, rgba(245,241,234,0.97) 100%);
 }
 
-.mosaic-cell img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(15%) brightness(0.42);
-  transform: scale(1.08);
-  animation: slowZoom 14s ease-in-out infinite alternate;
+/* canvas MUST be above overlay but below content — events handled on hero itself */
+#fog {
+  position:absolute; inset:0; z-index:3; pointer-events:none;
 }
 
-.mosaic-cell:nth-child(2) img { animation-delay: -3s; }
-.mosaic-cell:nth-child(3) img { animation-delay: -6s; }
-.mosaic-cell:nth-child(4) img { animation-delay: -9s; }
-.mosaic-cell:nth-child(5) img { animation-delay: -4s; }
-.mosaic-cell:nth-child(6) img { animation-delay: -7s; }
-.mosaic-cell:nth-child(7) img { animation-delay: -2s; }
-.mosaic-cell:nth-child(8) img { animation-delay: -10s; }
+.hero-txt {
+  position:relative; z-index:4;
+  padding:0 48px 72px;
+  pointer-events:none; /* text doesn't block mouse on fog layer */
+}
+.h-eye {
+  font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+  color:#fff; opacity:0; margin-bottom:20px;
+  animation:fu 0.9s 0.4s forwards;
+  text-shadow:0 1px 14px rgba(0,0,0,0.7);
+}
+.h-t {
+  font-family:'Cormorant Garamond',serif; font-weight:300;
+  font-size:clamp(52px,7vw,88px); line-height:1.0;
+  color:#fff; opacity:0; margin-bottom:6px;
+  animation:fu 0.9s 0.6s forwards;
+  text-shadow:0 2px 20px rgba(0,0,0,0.55);
+}
+.h-t em { font-style:italic; color:#e0ccff; }
+.h-s {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:19px; color:rgba(255,255,255,0.75); opacity:0;
+  animation:fu 0.9s 0.8s forwards;
+  text-shadow:0 1px 10px rgba(0,0,0,0.5);
+  margin-bottom:12px;
+}
+.h-fog-note {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:13px; color:rgba(195,175,225,0.75); opacity:0;
+  animation:fu 0.9s 1.1s forwards;
+  letter-spacing:0.06em;
+}
+@keyframes fu { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
 
-@keyframes slowZoom {
-  from { transform: scale(1.08); }
-  to   { transform: scale(1.0); }
-}
+/* REVEAL on scroll */
+.rv { opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.rv.on { opacity:1; transform:none; }
 
-/* Unified dark overlay over the whole mosaic */
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    160deg,
-    rgba(8,6,4,0.72) 0%,
-    rgba(8,6,4,0.55) 45%,
-    rgba(245,241,234,0.96) 100%
-  );
-  z-index: 2;
-}
+/* PATHS */
+#paths { padding:80px 48px; }
+.sec-lbl { font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.sec-t { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--dark); margin-bottom:48px; }
+.sec-t em { font-style:italic; color:var(--green); }
 
-/* FOG CANVAS */
-#fogCanvas {
-  position: absolute;
-  inset: 0;
-  pointer-events: auto;
-  z-index: 3;
-  cursor: crosshair;
+.pg {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:2px;
+  background:var(--border);
 }
+.pc {
+  position:relative; overflow:hidden; aspect-ratio:4/5;
+  cursor:pointer; background:#111;
+}
+.pc img {
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0.52; transition:opacity 0.5s, transform 0.6s;
+}
+.pc:hover img { opacity:0.32; transform:scale(1.05); }
+.pc-ov {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(10,8,4,0.88) 0%, transparent 55%);
+}
+.pc-n {
+  position:absolute; top:16px; right:16px;
+  font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300;
+  color:rgba(245,241,234,0.08); line-height:1;
+  transition:color 0.3s;
+}
+.pc:hover .pc-n { color:rgba(195,175,225,0.2); }
+.pc-info {
+  position:absolute; bottom:0; left:0; right:0; padding:20px 18px;
+}
+.pc-tag {
+  font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--fog); margin-bottom:6px;
+  opacity:0; transform:translateY(4px); transition:all 0.3s;
+}
+.pc:hover .pc-tag { opacity:1; transform:none; }
+.pc-name {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:20px; color:#f5f1ea; margin-bottom:4px;
+}
+.pc-sub {
+  font-family:'Cormorant Garamond',serif; font-size:12px;
+  color:rgba(245,241,234,0.45); line-height:1.5;
+  max-height:0; overflow:hidden; transition:max-height 0.35s, opacity 0.35s; opacity:0;
+}
+.pc:hover .pc-sub { max-height:50px; opacity:1; }
 
-/* Cursor fog hint */
-.cursor-hint {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 60px);
-  z-index: 5;
-  color: rgba(195,175,225,0.6);
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 14px;
-  letter-spacing: 0.08em;
-  pointer-events: none;
-  transition: opacity 0.5s;
-  text-align: center;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 4;
-  padding: 120px 60px 80px;
-  color: #f5f1ea;
-}
-.hero-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: #ffffff;
-  margin-bottom: 24px;
-  opacity: 0;
-  animation: fadeUp 1s 0.3s forwards;
-  text-shadow: 0 1px 12px rgba(0,0,0,0.6);
-}
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: clamp(56px, 8vw, 96px);
-  line-height: 1.0;
-  color: #ffffff;
-  margin-bottom: 8px;
-  opacity: 0;
-  animation: fadeUp 1s 0.5s forwards;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
-}
-.hero-title em { font-style: italic; color: #e8d8ff; }
-.hero-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 20px;
-  color: rgba(255,255,255,0.8);
-  margin-bottom: 40px;
-  opacity: 0;
-  animation: fadeUp 1s 0.7s forwards;
-  text-shadow: 0 1px 10px rgba(0,0,0,0.5);
-}
-.hero-fog-note {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 14px;
-  color: rgba(220,200,255,0.8);
-  letter-spacing: 0.06em;
-  opacity: 0;
-  animation: fadeUp 1s 1s forwards;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
-}
-
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-  from { opacity: 0; transform: translateY(20px); }
-}
-
-/* ── PATHS SECTION ── */
-#paths {
-  padding: 100px 60px;
-  background: var(--cream);
-}
-.section-label {
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 12px;
-}
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 44px;
-  font-weight: 300;
-  color: var(--dark);
-  margin-bottom: 56px;
-}
-.section-title em { font-style: italic; color: var(--green); }
-
-.paths-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: var(--border);
-}
-
-.path-card {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 4/5;
-  cursor: pointer;
-  background: #1a1610;
-}
-
-.path-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.55;
-  transition: opacity 0.6s ease, transform 0.7s ease;
-}
-
-.path-card:hover .path-img {
-  opacity: 0.35;
-  transform: scale(1.06);
-}
-
-.path-content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 28px 24px;
-  background: linear-gradient(to top, rgba(26,22,16,0.85) 0%, transparent 60%);
-  transition: background 0.4s;
-}
-.path-card:hover .path-content {
-  background: linear-gradient(to top, rgba(26,22,16,0.92) 0%, rgba(26,22,16,0.2) 80%);
-}
-
-.path-num {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 48px;
-  font-weight: 300;
-  color: rgba(245,241,234,0.1);
-  line-height: 1;
-  transition: color 0.4s;
-}
-.path-card:hover .path-num { color: rgba(195,175,225,0.25); }
-
-.path-tag {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--fog);
-  margin-bottom: 8px;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s, transform 0.3s;
-}
-.path-card:hover .path-tag { opacity: 1; transform: translateY(0); }
-
-.path-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-style: italic;
-  color: #f5f1ea;
-  margin-bottom: 6px;
-  line-height: 1.2;
-}
-.path-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
-  color: rgba(245,241,234,0.5);
-  line-height: 1.5;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.4s;
-  opacity: 0;
-}
-.path-card:hover .path-sub { max-height: 60px; opacity: 1; }
-
-/* ── MANIFESTO ── */
+/* MANIFESTO */
 #manifesto {
-  padding: 100px 60px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-  border-top: 0.5px solid var(--border);
+  padding:80px 48px;
+  display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
+  border-top:0.5px solid var(--border);
 }
-.manifesto-img-wrap {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 4/5;
+.mimg { position:relative; overflow:hidden; aspect-ratio:4/5; }
+.mimg img { width:100%; height:100%; object-fit:cover; display:block; }
+.mimg-cap {
+  position:absolute; bottom:0; left:0; right:0;
+  background:rgba(10,8,4,0.65); padding:14px 18px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:13px; color:rgba(245,241,234,0.55);
 }
-.manifesto-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.manifesto-img-caption {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(26,22,16,0.7);
-  padding: 16px 20px;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 13px;
-  color: rgba(245,241,234,0.6);
-}
+.mt { }
+.mt-lbl { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:20px; }
+.mt-title { font-family:'Cormorant Garamond',serif; font-size:34px; font-weight:300; line-height:1.2; color:var(--dark); margin-bottom:24px; }
+.mt-title em { font-style:italic; color:#6a3d9f; }
+.mt-p { font-family:'Cormorant Garamond',serif; font-size:17px; line-height:1.75; color:rgba(26,22,16,0.65); margin-bottom:16px; }
+.mq { border-left:2px solid rgba(26,92,46,0.3); padding-left:18px; margin-top:24px; }
+.mq-t { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px; color:rgba(26,22,16,0.5); line-height:1.6; }
+.mq-a { font-size:11px; letter-spacing:0.1em; color:var(--muted); margin-top:6px; }
 
-.manifesto-text {}
-.manifesto-label {
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+/* EVENTS */
+#events { padding:72px 48px; background:var(--dark); }
+.ev-h { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; padding-bottom:20px; border-bottom:0.5px solid rgba(245,241,234,0.1); }
+.ev-t { font-family:'Cormorant Garamond',serif; font-size:34px; font-weight:300; color:#f5f1ea; }
+.ev-a { font-size:11px; letter-spacing:0.13em; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:0.5px solid rgba(201,168,76,0.3); }
+.er {
+  display:grid; grid-template-columns:110px 1fr auto; gap:24px; align-items:center;
+  padding:24px 0; border-bottom:0.5px solid rgba(245,241,234,0.07);
+  cursor:pointer; transition:padding 0.2s;
 }
-.manifesto-label::after { content: ''; flex: 1; height: 0.5px; background: var(--border); max-width: 40px; }
-.manifesto-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
-  font-weight: 300;
-  line-height: 1.2;
-  color: var(--dark);
-  margin-bottom: 28px;
-}
-.manifesto-title em { font-style: italic; color: var(--fog-dark); }
-.manifesto-body {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  line-height: 1.75;
-  color: rgba(26,22,16,0.65);
-  margin-bottom: 20px;
-}
+.er:hover { padding-left:8px; }
+.er-d { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(201,168,76,0.65); }
+.er-n { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:19px; color:#f5f1ea; margin-bottom:3px; }
+.er-m { font-size:11px; color:rgba(245,241,234,0.3); letter-spacing:0.05em; }
+.er-tag { font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--fog); border:0.5px solid rgba(195,175,225,0.28); padding:4px 10px; white-space:nowrap; }
 
-/* ── EVENTS ── */
-#events {
-  padding: 80px 60px;
-  background: var(--dark);
-}
-.events-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 48px;
-  border-bottom: 0.5px solid rgba(245,241,234,0.1);
-  padding-bottom: 24px;
-}
-.events-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
-  font-weight: 300;
-  color: #f5f1ea;
-}
-.events-all {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  text-decoration: none;
-  border-bottom: 0.5px solid rgba(201,168,76,0.3);
-  padding-bottom: 2px;
-}
+/* ABOUT */
+#about { padding:80px 48px; display:grid; grid-template-columns:5fr 7fr; gap:72px; border-top:0.5px solid var(--border); }
+.as { position:sticky; top:90px; align-self:start; }
+.as-lbl { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
+.as-t { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; line-height:1.15; color:var(--dark); margin-bottom:20px; }
+.as-t em { font-style:italic; color:var(--green); }
+.as-p { font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.75; color:rgba(26,22,16,0.6); }
+.ab-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.ab { }
+.ab-n { font-family:'Cormorant Garamond',serif; font-size:34px; color:rgba(26,22,16,0.07); line-height:1; margin-bottom:6px; }
+.ab-t { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--dark); margin-bottom:4px; }
+.ab-s { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:13px; color:var(--muted); line-height:1.6; }
 
-.events-list { display: flex; flex-direction: column; gap: 0; }
-.event-row {
-  display: grid;
-  grid-template-columns: 120px 1fr auto;
-  gap: 32px;
-  align-items: center;
-  padding: 28px 0;
-  border-bottom: 0.5px solid rgba(245,241,234,0.08);
-  transition: background 0.2s;
-  cursor: pointer;
-}
-.event-row:hover { background: rgba(245,241,234,0.03); margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
+/* CTA */
+#cta { padding:100px 48px; text-align:center; background:var(--dark); position:relative; overflow:hidden; }
+.cta-glow { position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:500px; height:300px; background:radial-gradient(ellipse, rgba(195,175,225,0.13) 0%, transparent 65%); pointer-events:none; }
+.cta-t { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:#f5f1ea; margin-bottom:10px; position:relative; }
+.cta-t em { font-style:italic; color:var(--fog); }
+.cta-s { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:17px; color:rgba(245,241,234,0.4); margin-bottom:40px; position:relative; }
+.cta-btn { display:inline-block; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--dark); background:var(--fog); padding:14px 36px; text-decoration:none; position:relative; transition:background 0.2s; }
+.cta-btn:hover { background:#d8c8f5; }
 
-.event-date {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0.7;
-}
-.event-info {}
-.event-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-style: italic;
-  color: #f5f1ea;
-  margin-bottom: 4px;
-}
-.event-meta {
-  font-size: 12px;
-  color: rgba(245,241,234,0.35);
-  letter-spacing: 0.06em;
-}
-.event-path-tag {
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--fog);
-  border: 0.5px solid rgba(195,175,225,0.3);
-  padding: 5px 12px;
-  white-space: nowrap;
-}
+footer { padding:32px 48px; border-top:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+.fb { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:14px; color:var(--muted); }
+.fb span { color:var(--green); }
+.fm { font-size:11px; color:rgba(26,22,16,0.3); letter-spacing:0.07em; }
 
-/* ── ABOUT SPACE ── */
-#about {
-  padding: 100px 60px;
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: 80px;
-  border-top: 0.5px solid var(--border);
-}
-.about-sticky {
-  position: sticky;
-  top: 100px;
-  align-self: start;
-}
-.about-label {
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 20px;
-}
-.about-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 40px;
-  font-weight: 300;
-  line-height: 1.15;
-  color: var(--dark);
-  margin-bottom: 28px;
-}
-.about-title em { font-style: italic; color: var(--green); }
-.about-quote {
-  border-left: 2px solid rgba(26,92,46,0.3);
-  padding-left: 20px;
-  margin-top: 32px;
-}
-.about-quote-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 17px;
-  color: rgba(26,22,16,0.55);
-  line-height: 1.6;
-}
-.about-quote-attr {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  margin-top: 8px;
-}
-
-.about-details { display: flex; flex-direction: column; gap: 40px; }
-.about-img-pair {
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  gap: 2px;
-}
-.about-img-pair img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  display: block;
-}
-.about-img-pair img:last-child { aspect-ratio: 3/4; }
-
-.about-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.about-block {}
-.about-block-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
-  color: rgba(26,22,16,0.08);
-  line-height: 1;
-  margin-bottom: 8px;
-}
-.about-block-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 17px;
-  color: var(--dark);
-  margin-bottom: 6px;
-}
-.about-block-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* ── CTA ── */
-#cta {
-  padding: 120px 60px;
-  text-align: center;
-  background: var(--dark);
-  position: relative;
-  overflow: hidden;
-}
-.cta-fog {
-  position: absolute;
-  top: -100px; left: 50%;
-  transform: translateX(-50%);
-  width: 600px; height: 400px;
-  background: radial-gradient(ellipse, rgba(195,175,225,0.15) 0%, transparent 65%);
-  pointer-events: none;
-}
-.cta-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 52px;
-  font-weight: 300;
-  color: #f5f1ea;
-  margin-bottom: 12px;
-  position: relative;
-}
-.cta-title em { font-style: italic; color: var(--fog); }
-.cta-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 18px;
-  color: rgba(245,241,234,0.4);
-  margin-bottom: 48px;
-  position: relative;
-}
-.cta-btn {
-  display: inline-block;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--dark);
-  background: var(--fog);
-  padding: 16px 40px;
-  text-decoration: none;
-  position: relative;
-  transition: background 0.2s, color 0.2s;
-}
-.cta-btn:hover { background: #f5f1ea; }
-
-/* ── FOOTER ── */
-footer {
-  padding: 40px 60px;
-  border-top: 0.5px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.footer-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 15px;
-  color: var(--muted);
-}
-.footer-brand span { color: var(--green); }
-.footer-meta {
-  font-size: 11px;
-  color: rgba(26,22,16,0.35);
-  letter-spacing: 0.08em;
-}
-
-@media (max-width: 900px) {
-  nav { padding: 16px 24px; }
-  .nav-links { display: none; }
-  #hero .hero-content { padding: 100px 24px 60px; }
-  #paths { padding: 60px 24px; }
-  .paths-grid { grid-template-columns: 1fr 1fr; }
-  #manifesto { grid-template-columns: 1fr; padding: 60px 24px; }
-  #events { padding: 60px 24px; }
-  #about { grid-template-columns: 1fr; padding: 60px 24px; }
-  .about-sticky { position: static; }
-  #cta { padding: 80px 24px; }
-  footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+@media(max-width:800px){
+  nav{padding:14px 20px;} .nr{display:none;}
+  .hero-txt{padding:0 20px 56px;}
+  #paths{padding:56px 20px;} .pg{grid-template-columns:1fr 1fr;}
+  #manifesto{grid-template-columns:1fr;padding:56px 20px;}
+  #events{padding:56px 20px;}
+  #about{grid-template-columns:1fr;padding:56px 20px;} .as{position:static;}
+  #cta{padding:72px 20px;} footer{padding:20px;flex-direction:column;gap:8px;text-align:center;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="mainNav">
-  <div class="nav-logo">Жизнь как познание</div>
-  <ul class="nav-links">
+<nav id="nav">
+  <div class="nl">Жизнь как познание</div>
+  <ul class="nr">
     <li><a href="#paths">Пути</a></li>
     <li><a href="#events">Встречи</a></li>
     <li><a href="#about">О клубе</a></li>
   </ul>
-  <a href="#cta" class="nav-cta">Участвовать</a>
+  <a href="#cta" class="nc">Участвовать</a>
 </nav>
 
-
-<!-- HERO -->
+<!-- HERO — события мыши идут на весь блок, текст pointer-events:none -->
 <section id="hero">
-  <div class="hero-mosaic">
-    <!-- Горы -->
-    <div class="mosaic-cell">
-      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=75" alt="" loading="eager">
-    </div>
-    <!-- Петербург -->
-    <div class="mosaic-cell">
-      <img src="https://images.unsplash.com/photo-1548834925-e48f8a27c81a?w=600&q=75" alt="" loading="eager">
-    </div>
-    <!-- Океан -->
-    <div class="mosaic-cell">
-      <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=75" alt="" loading="eager">
-    </div>
-    <!-- Люди за столом -->
-    <div class="mosaic-cell">
-      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=75" alt="" loading="eager">
-    </div>
-    <!-- Лес / природа -->
-    <div class="mosaic-cell">
-      <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=75" alt="" loading="eager">
-    </div>
-    <!-- Книги -->
-    <div class="mosaic-cell">
-      <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=75" alt="" loading="eager">
-    </div>
-    <!-- Звёзды / ночь -->
-    <div class="mosaic-cell">
-      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=75" alt="" loading="eager">
-    </div>
-    <!-- Движение / тело -->
-    <div class="mosaic-cell">
-      <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=75" alt="" loading="eager">
-    </div>
+  <div class="mosaic">
+    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=72" alt="" loading="eager">
+    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=700&q=72" alt="" loading="eager">
+    <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=700&q=72" alt="" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=700&q=72" alt="" loading="lazy">
   </div>
-  <div class="hero-overlay"></div>
-  <canvas id="fogCanvas"></canvas>
+  <div class="hero-ov"></div>
+  <canvas id="fog"></canvas>
 
-  <div class="hero-content">
-    <div class="hero-eyebrow">клуб · Санкт-Петербург</div>
-    <div class="hero-title">Жизнь<br>как <em>познание</em></div>
-    <div class="hero-sub">пространство для тех, кто живёт именно так</div>
-    <div class="hero-fog-note">рассей туман непознанного — проведи курсором</div>
-  </div>
-
-  <div class="cursor-hint" id="cursorHint">
-    туман непознанного<br>
-    <span style="font-size:11px; letter-spacing: 0.12em;">прикоснись вниманием</span>
+  <div class="hero-txt">
+    <div class="h-eye">клуб · Санкт-Петербург</div>
+    <div class="h-t">Жизнь<br>как <em>познание</em></div>
+    <div class="h-s">пространство для тех, кто живёт именно так</div>
+    <div class="h-fog-note">рассей туман непознанного — проведи курсором</div>
   </div>
 </section>
-
 
 <!-- PATHS -->
 <section id="paths">
-  <div class="reveal">
-    <div class="section-label">шесть путей</div>
-    <div class="section-title">Каждый познаёт <em>по-своему</em></div>
+  <div class="rv">
+    <div class="sec-lbl">шесть путей</div>
+    <div class="sec-t">Каждый познаёт <em>по-своему</em></div>
   </div>
-
-  <div class="paths-grid">
-
-    <div class="path-card reveal-img">
-      <img class="path-img" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=75" alt="Через тело" loading="lazy">
-      <div class="path-num">01</div>
-      <div class="path-content">
-        <div class="path-tag">путь</div>
-        <div class="path-name">Через тело</div>
-        <div class="path-sub">движение, ощущения, физика существования</div>
-      </div>
+  <div class="pg">
+    <div class="pc rv">
+      <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&q=72" alt="" loading="lazy">
+      <div class="pc-ov"></div><div class="pc-n">01</div>
+      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через тело</div><div class="pc-sub">движение, ощущения, физика существования</div></div>
     </div>
-
-    <div class="path-card reveal-img" style="transition-delay: 0.1s">
-      <img class="path-img" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=75" alt="Через другого" loading="lazy">
-      <div class="path-num">02</div>
-      <div class="path-content">
-        <div class="path-tag">путь</div>
-        <div class="path-name">Через другого</div>
-        <div class="path-sub">диалог, отношения, зеркало человека</div>
-      </div>
+    <div class="pc rv" style="transition-delay:.08s">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&q=72" alt="" loading="lazy">
+      <div class="pc-ov"></div><div class="pc-n">02</div>
+      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через другого</div><div class="pc-sub">диалог, отношения, зеркало человека</div></div>
     </div>
-
-    <div class="path-card reveal-img" style="transition-delay: 0.2s">
-      <img class="path-img" src="https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?w=600&q=75" alt="Через психологию" loading="lazy">
-      <div class="path-num">03</div>
-      <div class="path-content">
-        <div class="path-tag">путь</div>
-        <div class="path-name">Через психологию</div>
-        <div class="path-sub">внутреннее пространство, паттерны, глубина</div>
-      </div>
+    <div class="pc rv" style="transition-delay:.16s">
+      <img src="https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?w=500&q=72" alt="" loading="lazy">
+      <div class="pc-ov"></div><div class="pc-n">03</div>
+      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через психологию</div><div class="pc-sub">внутреннее пространство, паттерны, глубина</div></div>
     </div>
-
-    <div class="path-card reveal-img" style="transition-delay: 0.15s">
-      <img class="path-img" src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=75" alt="Через искусство" loading="lazy">
-      <div class="path-num">04</div>
-      <div class="path-content">
-        <div class="path-tag">путь</div>
-        <div class="path-name">Через искусство</div>
-        <div class="path-sub">книги, музыка, кино, то что остаётся</div>
-      </div>
+    <div class="pc rv" style="transition-delay:.1s">
+      <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&q=72" alt="" loading="lazy">
+      <div class="pc-ov"></div><div class="pc-n">04</div>
+      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через искусство</div><div class="pc-sub">книги, музыка, кино, то что остаётся</div></div>
     </div>
-
-    <div class="path-card reveal-img" style="transition-delay: 0.25s">
-      <img class="path-img" src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&q=75" alt="Через место" loading="lazy">
-      <div class="path-num">05</div>
-      <div class="path-content">
-        <div class="path-tag">путь</div>
-        <div class="path-name">Через место</div>
-        <div class="path-sub">город, путешествие, пространство, Петербург</div>
-      </div>
+    <div class="pc rv" style="transition-delay:.18s">
+      <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=500&q=72" alt="" loading="lazy">
+      <div class="pc-ov"></div><div class="pc-n">05</div>
+      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через место</div><div class="pc-sub">город, путешествие, пространство, Петербург</div></div>
     </div>
-
-    <div class="path-card reveal-img" style="transition-delay: 0.3s">
-      <img class="path-img" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=75" alt="Через магию" loading="lazy">
-      <div class="path-num">06</div>
-      <div class="path-content">
-        <div class="path-tag">путь</div>
-        <div class="path-name">Через магию</div>
-        <div class="path-sub">взаимодействие со вселенной, знаки, невидимое</div>
-      </div>
+    <div class="pc rv" style="transition-delay:.26s">
+      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=500&q=72" alt="" loading="lazy">
+      <div class="pc-ov"></div><div class="pc-n">06</div>
+      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через магию</div><div class="pc-sub">взаимодействие со вселенной, знаки, невидимое</div></div>
     </div>
-
   </div>
 </section>
-
 
 <!-- MANIFESTO -->
 <section id="manifesto">
-  <div class="manifesto-img-wrap reveal-img">
-    <img class="manifesto-img" src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&q=75" alt="Встреча за столом" loading="lazy">
-    <div class="manifesto-img-caption">встреча в пространстве · Санкт-Петербург</div>
+  <div class="mimg rv">
+    <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=700&q=72" alt="" loading="lazy">
+    <div class="mimg-cap">встреча в пространстве · Санкт-Петербург</div>
   </div>
-
-  <div class="manifesto-text reveal">
-    <div class="manifesto-label">манифест</div>
-    <div class="manifesto-title">Туман непознанного<br>не пугает — <em>притягивает</em></div>
-    <div class="manifesto-body">Есть люди, для которых жизнь — это не задача, которую нужно решить. Это процесс, в котором интересно находиться.</div>
-    <div class="manifesto-body">Они не ищут готовых ответов. Они исследуют. Через тело и через книги, через разговор и через тишину, через любовь и через кризис.</div>
-    <div class="manifesto-body">Клуб «Жизнь как познание» — пространство для таких людей. Место где твой склад ума — не странность, а норма.</div>
-    <div class="about-quote">
-      <div class="about-quote-text">«Всякое существо рождается для того, чтобы познавать мир. А не для того, чтобы всем в этом мире понравиться.»</div>
-      <div class="about-quote-attr">— Макс Фрай</div>
+  <div class="mt rv" style="transition-delay:.1s">
+    <div class="mt-lbl">манифест</div>
+    <div class="mt-title">Туман непознанного<br>не пугает — <em>притягивает</em></div>
+    <p class="mt-p">Есть люди, для которых жизнь — это не задача. Это процесс, в котором интересно находиться.</p>
+    <p class="mt-p">Они не ищут готовых ответов. Они исследуют — через тело и через книги, через разговор и через тишину.</p>
+    <p class="mt-p">Клуб «Жизнь как познание» — место где твой склад ума не странность, а норма.</p>
+    <div class="mq">
+      <div class="mq-t">«Всякое существо рождается для того, чтобы познавать мир.»</div>
+      <div class="mq-a">— Макс Фрай</div>
     </div>
   </div>
 </section>
-
 
 <!-- EVENTS -->
 <section id="events">
-  <div class="events-header reveal">
-    <div class="events-title">Ближайшие встречи</div>
-    <a href="#" class="events-all">Все встречи</a>
+  <div class="ev-h rv">
+    <div class="ev-t">Ближайшие встречи</div>
+    <a href="#" class="ev-a">Все встречи</a>
   </div>
-
-  <div class="events-list">
-    <div class="event-row reveal" style="transition-delay: 0.1s">
-      <div class="event-date">16 мая · 13:00</div>
-      <div class="event-info">
-        <div class="event-name">Мои любимые цитаты Макса Фрая</div>
-        <div class="event-meta">вечер историй · до 15 человек · 990 ₽ · центр Петербурга</div>
-      </div>
-      <div class="event-path-tag">Через искусство</div>
-    </div>
-    <div class="event-row reveal" style="transition-delay: 0.2s">
-      <div class="event-date">27 июня</div>
-      <div class="event-info">
-        <div class="event-name">Вторая встреча — тема будет объявлена</div>
-        <div class="event-meta">регистрация откроется позже</div>
-      </div>
-      <div class="event-path-tag">Скоро</div>
-    </div>
-    <div class="event-row reveal" style="transition-delay: 0.3s; opacity: 0.4">
-      <div class="event-date">— · —</div>
-      <div class="event-info">
-        <div class="event-name" style="font-style: normal; font-size: 15px; color: rgba(245,241,234,0.3)">следующие встречи — скоро</div>
-        <div class="event-meta">подпишитесь чтобы узнать первыми</div>
-      </div>
-      <div></div>
-    </div>
+  <div class="er rv" style="transition-delay:.1s">
+    <div class="er-d">16 мая · 13:00</div>
+    <div><div class="er-n">Мои любимые цитаты Макса Фрая</div><div class="er-m">вечер историй · до 15 человек · 990 ₽</div></div>
+    <div class="er-tag">Через искусство</div>
+  </div>
+  <div class="er rv" style="transition-delay:.2s">
+    <div class="er-d">27 июня</div>
+    <div><div class="er-n">Вторая встреча</div><div class="er-m">тема будет объявлена</div></div>
+    <div class="er-tag">Скоро</div>
   </div>
 </section>
-
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="about-sticky reveal">
-    <div class="about-label">о пространстве</div>
-    <div class="about-title">Камерный клуб<br>в центре <em>Петербурга</em></div>
-    <div class="manifesto-body" style="font-size:16px;">Небольшие встречи — не больше пятнадцати человек. Большой стол, тёплый свет, живой разговор.</div>
-    <div class="about-quote">
-      <div class="about-quote-text">Каждый вечер — одна тема. Каждый участник приносит свою историю.</div>
-    </div>
+  <div class="as rv">
+    <div class="as-lbl">о пространстве</div>
+    <div class="as-t">Камерный клуб<br>в центре <em>Петербурга</em></div>
+    <p class="as-p">Небольшие встречи — не больше пятнадцати человек. Большой стол, тёплый свет, живой разговор.</p>
   </div>
-
-  <div class="about-details">
-    <div class="about-img-pair reveal-img">
-      <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=600&q=75" alt="Стол встречи" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&q=75" alt="Книги" loading="lazy">
-    </div>
-
-    <div class="about-blocks reveal">
-      <div class="about-block">
-        <div class="about-block-num">15</div>
-        <div class="about-block-title">Участников максимум</div>
-        <div class="about-block-text">Маленький круг — чтобы каждый голос был услышан</div>
-      </div>
-      <div class="about-block">
-        <div class="about-block-num">6</div>
-        <div class="about-block-title">Путей познания</div>
-        <div class="about-block-text">Каждый вечер — свой путь, своя тема, своя глубина</div>
-      </div>
-      <div class="about-block">
-        <div class="about-block-num">∞</div>
-        <div class="about-block-title">Монеты Ехо</div>
-        <div class="about-block-text">Переходят между встречами — копи и трать когда захочешь</div>
-      </div>
-      <div class="about-block">
-        <div class="about-block-num">990</div>
-        <div class="about-block-title">Рублей за вечер</div>
-        <div class="about-block-text">Включает напитки — камру, чай или какао</div>
-      </div>
-    </div>
+  <div class="ab-grid rv" style="transition-delay:.1s">
+    <div class="ab"><div class="ab-n">15</div><div class="ab-t">Участников максимум</div><div class="ab-s">Маленький круг — чтобы каждый голос был услышан</div></div>
+    <div class="ab"><div class="ab-n">6</div><div class="ab-t">Путей познания</div><div class="ab-s">Каждый вечер — свой путь, своя глубина</div></div>
+    <div class="ab"><div class="ab-n">∞</div><div class="ab-t">Монеты Ехо</div><div class="ab-s">Переходят между встречами — копи и трать когда хочешь</div></div>
+    <div class="ab"><div class="ab-n">990</div><div class="ab-t">Рублей за вечер</div><div class="ab-s">Включает напитки — камру, чай или какао</div></div>
   </div>
 </section>
-
 
 <!-- CTA -->
 <section id="cta">
-  <div class="cta-fog"></div>
-  <div class="cta-title reveal">Войди в <em>туман</em></div>
-  <div class="cta-sub reveal">Регистрация на ближайшую встречу — 16 мая</div>
-  <a href="#" class="cta-btn reveal">Зарегистрироваться · 990 ₽</a>
+  <div class="cta-glow"></div>
+  <div class="cta-t rv">Войди в <em>туман</em></div>
+  <div class="cta-s rv">Регистрация на ближайшую встречу — 16 мая</div>
+  <a href="#" class="cta-btn rv">Зарегистрироваться · 990 ₽</a>
 </section>
 
-
-<!-- FOOTER -->
 <footer>
-  <div class="footer-brand">Жизнь как познание · <span>Санкт-Петербург</span></div>
-  <div class="footer-meta">© 2026 · клуб</div>
+  <div class="fb">Жизнь как познание · <span>Санкт-Петербург</span></div>
+  <div class="fm">© 2026 · клуб</div>
 </footer>
 
-
 <script>
-// ── NAV scroll ──
-const nav = document.getElementById('mainNav');
+// NAV scroll
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
+  document.getElementById('nav').classList.toggle('sc', window.scrollY > 40);
+}, {passive:true});
 
-// ── Scroll reveal ──
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      io.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12 });
+// Scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+}, {threshold: 0.1});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-document.querySelectorAll('.reveal, .reveal-img').forEach(el => io.observe(el));
+// FOG — lightweight version
+(function(){
+  const hero = document.getElementById('hero');
+  const canvas = document.getElementById('fog');
+  const ctx = canvas.getContext('2d');
+  const CELL = 32; // larger cells = fewer to draw = faster
+  let cols, rows, cells = [], done = false, dissolving = false;
 
-// ── FOG on hero ──
-const canvas = document.getElementById('fogCanvas');
-const ctx = canvas.getContext('2d');
-let fogDone = false;
-let fogCells = [];
-let autoClearing = false;
-let rafId = null;
-const CELL = 28;
-let cols, rows;
-
-function initFog() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  cols = Math.ceil(canvas.width / CELL) + 1;
-  rows = Math.ceil(canvas.height / CELL) + 1;
-  fogCells = [];
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      // edge distance factor — cells near edges keep a bit of fog
-      const edgeX = Math.min(c, cols-1-c) / (cols/2);
-      const edgeY = Math.min(r, rows-1-r) / (rows/2);
-      const edgeFactor = Math.min(edgeX, edgeY); // 0 at edge, 1 at center
-      fogCells.push({
-        x: c*CELL, y: r*CELL,
-        alpha: 1,
-        edgeFactor // cells near edges will keep residual fog
-      });
-    }
+  function resize(){
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+    init();
   }
-  drawFog();
-}
 
-function drawFog() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  fogCells.forEach(cell => {
-    if (cell.alpha <= 0.01) return;
-    ctx.fillStyle = `rgba(195,175,225,${cell.alpha * 0.82})`;
-    ctx.fillRect(cell.x, cell.y, CELL + 1, CELL + 1);
-  });
-}
+  function init(){
+    cols = Math.ceil(canvas.width / CELL) + 1;
+    rows = Math.ceil(canvas.height / CELL) + 1;
+    cells = [];
+    for(let r=0; r<rows; r++){
+      for(let c=0; c<cols; c++){
+        // edge factor: 0 at border, 1 at center
+        const ex = Math.min(c, cols-1-c) / (cols/2);
+        const ey = Math.min(r, rows-1-r) / (rows/2);
+        cells.push({ x:c*CELL, y:r*CELL, a:1.0, ef:Math.min(ex,ey) });
+      }
+    }
+    draw();
+  }
 
-function clearedFraction() {
-  const cleared = fogCells.filter(c => c.alpha < 0.5).length;
-  return cleared / fogCells.length;
-}
-
-function startAutoFade() {
-  if (autoClearing) return;
-  autoClearing = true;
-
-  function frame() {
-    let stillActive = false;
-    fogCells.forEach(cell => {
-      if (cell.alpha <= 0.01) return;
-      // Edge cells fade slower and stop at a residual value
-      const residual = cell.edgeFactor < 0.18 ? 0.35 * (1 - cell.edgeFactor / 0.18) : 0;
-      if (cell.alpha <= residual + 0.01) return;
-      const speed = 0.012 + cell.edgeFactor * 0.018; // center fades faster
-      cell.alpha = Math.max(residual, cell.alpha - speed);
-      stillActive = true;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    cells.forEach(cl => {
+      if(cl.a < 0.02) return;
+      ctx.fillStyle = `rgba(195,175,225,${cl.a * 0.8})`;
+      ctx.fillRect(cl.x, cl.y, CELL+1, CELL+1);
     });
-    drawFog();
-
-    if (stillActive) {
-      rafId = requestAnimationFrame(frame);
-    } else {
-      // All done — final fade of canvas
-      canvas.style.transition = 'opacity 1.4s ease';
-      canvas.style.opacity = '0';
-      fogDone = true;
-      document.getElementById('cursorHint').style.opacity = '0';
-    }
   }
-  rafId = requestAnimationFrame(frame);
-}
 
-function clearFogAt(mx, my) {
-  if (fogDone) return;
-  const radius = 68;
-  fogCells.forEach(cell => {
-    if (cell.alpha <= 0.01) return;
-    const dx = cell.x + CELL/2 - mx;
-    const dy = cell.y + CELL/2 - my;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    if (dist < radius) {
-      cell.alpha = Math.max(0, cell.alpha - 0.22 * (1 - dist/radius));
-    }
-  });
-  drawFog();
-
-  // Trigger auto-fade when 25% cleared
-  if (!autoClearing && clearedFraction() >= 0.25) {
-    startAutoFade();
-    document.getElementById('cursorHint').style.opacity = '0';
+  function clearedPct(){
+    return cells.filter(c => c.a < 0.4).length / cells.length;
   }
-}
 
-canvas.addEventListener('mousemove', e => {
-  if (fogDone) return;
-  const rect = canvas.getBoundingClientRect();
-  clearFogAt(e.clientX - rect.left, e.clientY - rect.top);
-}, { passive: true });
+  function startDissolve(){
+    if(dissolving) return;
+    dissolving = true;
+    function frame(){
+      if(done) return;
+      let any = false;
+      cells.forEach(cl => {
+        if(cl.a < 0.01) return;
+        // edges keep a residual haze
+        const res = cl.ef < 0.2 ? 0.28 * (1 - cl.ef/0.2) : 0;
+        if(cl.a <= res + 0.01) return;
+        cl.a = Math.max(res, cl.a - 0.014 - cl.ef * 0.02);
+        any = true;
+      });
+      draw();
+      if(any){ requestAnimationFrame(frame); }
+      else {
+        done = true;
+        canvas.style.transition = 'opacity 1s';
+        canvas.style.opacity = '0';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
 
-canvas.addEventListener('touchmove', e => {
-  if (fogDone) return;
-  const t = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  clearFogAt(t.clientX - rect.left, t.clientY - rect.top);
-}, { passive: true });
+  function clearAt(mx, my){
+    if(done) return;
+    const R = 72;
+    cells.forEach(cl => {
+      if(cl.a < 0.01) return;
+      const dx = cl.x + CELL/2 - mx;
+      const dy = cl.y + CELL/2 - my;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < R) cl.a = Math.max(0, cl.a - 0.25*(1-d/R));
+    });
+    draw();
+    if(!dissolving && clearedPct() >= 0.27) startDissolve();
+  }
 
-window.addEventListener('resize', initFog, { passive: true });
-initFog();
+  // Events on hero (text has pointer-events:none so no blocking)
+  hero.addEventListener('mousemove', e => {
+    if(done) return;
+    const r = canvas.getBoundingClientRect();
+    clearAt(e.clientX - r.left, e.clientY - r.top);
+  }, {passive:true});
 
-// Hide hint after 3s
-setTimeout(() => {
-  document.getElementById('cursorHint').style.opacity = '0';
-}, 3500);
+  hero.addEventListener('touchmove', e => {
+    if(done) return;
+    const t = e.touches[0], r = canvas.getBoundingClientRect();
+    clearAt(t.clientX - r.left, t.clientY - r.top);
+    e.preventDefault();
+  }, {passive:false});
+
+  window.addEventListener('resize', resize, {passive:true});
+  resize();
+})();
 </script>
 </body>
 </html>
