@@ -8,476 +8,365 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,500&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --cream: #f5f1ea;
-  --dark: #1a1610;
-  --green: #1a5c2e;
-  --gold: #c9a84c;
-  --fog: #c3afe1;
-  --muted: #8a7f6e;
-  --border: rgba(26,22,16,0.1);
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
-body { background:var(--cream); color:var(--dark); font-family:'Onest',sans-serif; overflow-x:hidden; }
+:root{--cream:#f5f1ea;--cream-warm:#ebe5d8;--dark:#1a1610;--green:#1a5c2e;--gold:#b08940;--fog:#c3afe1;--muted:#8a7f6e;--line:rgba(26,22,16,0.12);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--dark);font-family:'Onest',sans-serif;overflow-x:hidden;line-height:1.6;}
 
-/* NAV */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:200;
-  padding:18px 48px;
-  display:flex; justify-content:space-between; align-items:center;
-  background:rgba(245,241,234,0.94);
-  backdrop-filter:blur(10px);
-  border-bottom:0.5px solid transparent;
-  transition:border-color 0.3s;
-}
-nav.sc { border-bottom-color:var(--border); }
-.nl { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px; color:var(--dark); }
-.nr { display:flex; gap:28px; list-style:none; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; }
-.nr a { color:var(--muted); text-decoration:none; transition:color 0.2s; }
-.nr a:hover { color:var(--dark); }
-.nc { font-size:11px; letter-spacing:0.13em; text-transform:uppercase; color:var(--green); border:0.5px solid var(--green); padding:8px 18px; text-decoration:none; transition:all 0.2s; }
-.nc:hover { background:var(--green); color:#fff; }
+.ph{border:1px dashed rgba(176,137,64,0.4);background:rgba(176,137,64,0.04);color:rgba(138,127,110,0.85);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;text-align:center;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;border-radius:2px;}
+.ph-tag{font-family:'Onest',sans-serif;font-style:normal;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(176,137,64,0.7);}
+.ph-note{font-size:13px;max-width:340px;line-height:1.55;}
+.ph-when{font-size:11px;color:rgba(138,127,110,0.55);letter-spacing:0.04em;margin-top:4px;}
 
-/* HERO */
-#hero {
-  position:relative; min-height:100vh;
-  display:flex; flex-direction:column; justify-content:flex-end;
-  overflow:hidden; cursor:crosshair;
-}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px 42px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,241,234,0.94);backdrop-filter:blur(10px);border-bottom:0.5px solid transparent;transition:border-color 0.3s;}
+nav.sc{border-bottom-color:var(--line);}
+.logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--dark);}
+.nav-r{display:flex;gap:28px;list-style:none;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;}
+.nav-r a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-r a:hover{color:var(--dark);}
 
-/* mosaic — 4 images only, no animation */
-.mosaic {
-  position:absolute; inset:0; z-index:1;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:1fr 1fr;
-  gap:2px;
-}
-.mosaic img {
-  width:100%; height:100%; object-fit:cover; display:block;
-  filter:brightness(0.38) grayscale(15%);
-}
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;cursor:crosshair;background:var(--dark);padding:0;}
+.hero-mosaic{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;}
 
-.hero-ov {
-  position:absolute; inset:0; z-index:2;
-  background:linear-gradient(170deg, rgba(6,4,2,0.6) 0%, rgba(6,4,2,0.3) 50%, rgba(245,241,234,0.97) 100%);
-}
 
-/* canvas MUST be above overlay but below content — events handled on hero itself */
-#fog {
-  position:absolute; inset:0; z-index:3; pointer-events:none;
-}
+.mc{width:100%;height:100%;}
+/* Горы — сине-зелёный рассвет */
+.mc1{background:linear-gradient(135deg,#0d3b2e 0%,#1a6b4a 25%,#2d8a60 50%,#1e5a7a 75%,#0e2d4a 100%);}
+/* Тёплый свет — янтарь и охра */
+.mc2{background:linear-gradient(150deg,#2a1506 0%,#7a3a10 30%,#c87830 60%,#e8b060 80%,#f5d090 100%);}
+/* Океан — глубокий синий */
+.mc3{background:linear-gradient(160deg,#040d1a 0%,#0a2040 30%,#0e3a6e 60%,#1a5a9a 80%,#2878c8 100%);}
+/* Звёздное небо — тёмный индиго */
+.mc4{background:linear-gradient(145deg,#060412 0%,#0e0820 30%,#1a0e38 55%,#2a1860 75%,#3a2880 100%);
+  background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,0.9) 0%,transparent 100%),
+    radial-gradient(1px 1px at 65% 15%,rgba(255,255,255,0.8) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 60%,rgba(255,255,255,0.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 80% 45%,rgba(255,255,255,0.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 55% 80%,rgba(255,255,255,0.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 10% 70%,rgba(255,255,255,0.7) 0%,transparent 100%),
+    radial-gradient(2px 2px at 90% 25%,rgba(255,255,255,0.6) 0%,transparent 100%),
+    linear-gradient(145deg,#060412 0%,#0e0820 30%,#1a0e38 55%,#2a1860 75%,#3a2880 100%);}
 
-.hero-txt {
-  position:relative; z-index:4;
-  padding:0 48px 72px;
-  pointer-events:none; /* text doesn't block mouse on fog layer */
-}
-.h-eye {
-  font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
-  color:#fff; opacity:0; margin-bottom:20px;
-  animation:fu 0.9s 0.4s forwards;
-  text-shadow:0 1px 14px rgba(0,0,0,0.7);
-}
-.h-t {
-  font-family:'Cormorant Garamond',serif; font-weight:300;
-  font-size:clamp(52px,7vw,88px); line-height:1.0;
-  color:#fff; opacity:0; margin-bottom:6px;
-  animation:fu 0.9s 0.6s forwards;
-  text-shadow:0 2px 20px rgba(0,0,0,0.55);
-}
-.h-t em { font-style:italic; color:#e0ccff; }
-.h-s {
-  font-family:'Cormorant Garamond',serif; font-style:italic;
-  font-size:19px; color:rgba(255,255,255,0.75); opacity:0;
-  animation:fu 0.9s 0.8s forwards;
-  text-shadow:0 1px 10px rgba(0,0,0,0.5);
-  margin-bottom:12px;
-}
-.h-fog-note {
-  font-family:'Cormorant Garamond',serif; font-style:italic;
-  font-size:13px; color:rgba(195,175,225,0.75); opacity:0;
-  animation:fu 0.9s 1.1s forwards;
-  letter-spacing:0.06em;
-}
-@keyframes fu { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+.hero-ov{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(6,4,2,0.3) 0%,rgba(6,4,2,0.0) 50%,rgba(245,241,234,0.95) 100%);}
+#fog{position:absolute;inset:0;z-index:3;pointer-events:none;}
+.hero-txt{position:relative;z-index:4;padding:0 42px 64px;pointer-events:none;}
+.h-eye{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#fff;opacity:0;margin-bottom:18px;animation:fu 0.9s 0.4s forwards;text-shadow:0 1px 14px rgba(0,0,0,0.7);}
+.h-t{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(52px,7vw,86px);line-height:1.0;color:#fff;opacity:0;margin-bottom:8px;animation:fu 0.9s 0.6s forwards;text-shadow:0 2px 22px rgba(0,0,0,0.6);}
+.h-t em{font-style:italic;color:#e0ccff;}
+.h-s{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:rgba(255,255,255,0.78);opacity:0;animation:fu 0.9s 0.8s forwards;text-shadow:0 1px 10px rgba(0,0,0,0.55);max-width:560px;}
+.h-note{margin-top:14px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:rgba(195,175,225,0.7);opacity:0;animation:fu 0.9s 1.1s forwards;letter-spacing:0.06em;}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
-/* REVEAL on scroll */
-.rv { opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
-.rv.on { opacity:1; transform:none; }
+.rv{opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.rv.on{opacity:1;transform:none;}
 
-/* PATHS */
-#paths { padding:80px 48px; }
-.sec-lbl { font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
-.sec-t { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--dark); margin-bottom:48px; }
-.sec-t em { font-style:italic; color:var(--green); }
+section{padding:80px 42px;}
+.lbl{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
 
-.pg {
-  display:grid; grid-template-columns:repeat(3,1fr); gap:2px;
-  background:var(--border);
-}
-.pc {
-  position:relative; overflow:hidden; aspect-ratio:4/5;
-  cursor:pointer; background:#111;
-}
-.pc img {
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-  opacity:0.52; transition:opacity 0.5s, transform 0.6s;
-}
-.pc:hover img { opacity:0.32; transform:scale(1.05); }
-.pc-ov {
-  position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(10,8,4,0.88) 0%, transparent 55%);
-}
-.pc-n {
-  position:absolute; top:16px; right:16px;
-  font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300;
-  color:rgba(245,241,234,0.08); line-height:1;
-  transition:color 0.3s;
-}
-.pc:hover .pc-n { color:rgba(195,175,225,0.2); }
-.pc-info {
-  position:absolute; bottom:0; left:0; right:0; padding:20px 18px;
-}
-.pc-tag {
-  font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
-  color:var(--fog); margin-bottom:6px;
-  opacity:0; transform:translateY(4px); transition:all 0.3s;
-}
-.pc:hover .pc-tag { opacity:1; transform:none; }
-.pc-name {
-  font-family:'Cormorant Garamond',serif; font-style:italic;
-  font-size:20px; color:#f5f1ea; margin-bottom:4px;
-}
-.pc-sub {
-  font-family:'Cormorant Garamond',serif; font-size:12px;
-  color:rgba(245,241,234,0.45); line-height:1.5;
-  max-height:0; overflow:hidden; transition:max-height 0.35s, opacity 0.35s; opacity:0;
-}
-.pc:hover .pc-sub { max-height:50px; opacity:1; }
+#manifesto{max-width:780px;margin:0 auto;}
+.m-text{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1.55;color:var(--dark);margin-bottom:24px;}
+.m-text em{font-style:italic;color:var(--green);}
+.m-fine{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(26,22,16,0.55);line-height:1.7;}
 
-/* MANIFESTO */
-#manifesto {
-  padding:80px 48px;
-  display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
-  border-top:0.5px solid var(--border);
-}
-.mimg { position:relative; overflow:hidden; aspect-ratio:4/5; }
-.mimg img { width:100%; height:100%; object-fit:cover; display:block; }
-.mimg-cap {
-  position:absolute; bottom:0; left:0; right:0;
-  background:rgba(10,8,4,0.65); padding:14px 18px;
-  font-family:'Cormorant Garamond',serif; font-style:italic;
-  font-size:13px; color:rgba(245,241,234,0.55);
-}
-.mt { }
-.mt-lbl { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:20px; }
-.mt-title { font-family:'Cormorant Garamond',serif; font-size:34px; font-weight:300; line-height:1.2; color:var(--dark); margin-bottom:24px; }
-.mt-title em { font-style:italic; color:#6a3d9f; }
-.mt-p { font-family:'Cormorant Garamond',serif; font-size:17px; line-height:1.75; color:rgba(26,22,16,0.65); margin-bottom:16px; }
-.mq { border-left:2px solid rgba(26,92,46,0.3); padding-left:18px; margin-top:24px; }
-.mq-t { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px; color:rgba(26,22,16,0.5); line-height:1.6; }
-.mq-a { font-size:11px; letter-spacing:0.1em; color:var(--muted); margin-top:6px; }
+#what{background:var(--cream-warm);}
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1100px;margin:0 auto;}
+.what-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1.15;color:var(--dark);margin-bottom:24px;}
+.what-title em{font-style:italic;color:#6a3d9f;}
+.what-list{display:flex;flex-direction:column;gap:16px;}
+.what-item{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.6;color:rgba(26,22,16,0.78);padding-left:20px;position:relative;}
+.what-item::before{content:'';position:absolute;left:0;top:13px;width:8px;height:1px;background:var(--gold);}
+.what-ph{aspect-ratio:5/6;}
 
-/* EVENTS */
-#events { padding:72px 48px; background:var(--dark); }
-.ev-h { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; padding-bottom:20px; border-bottom:0.5px solid rgba(245,241,234,0.1); }
-.ev-t { font-family:'Cormorant Garamond',serif; font-size:34px; font-weight:300; color:#f5f1ea; }
-.ev-a { font-size:11px; letter-spacing:0.13em; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:0.5px solid rgba(201,168,76,0.3); }
-.er {
-  display:grid; grid-template-columns:110px 1fr auto; gap:24px; align-items:center;
-  padding:24px 0; border-bottom:0.5px solid rgba(245,241,234,0.07);
-  cursor:pointer; transition:padding 0.2s;
-}
-.er:hover { padding-left:8px; }
-.er-d { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(201,168,76,0.65); }
-.er-n { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:19px; color:#f5f1ea; margin-bottom:3px; }
-.er-m { font-size:11px; color:rgba(245,241,234,0.3); letter-spacing:0.05em; }
-.er-tag { font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--fog); border:0.5px solid rgba(195,175,225,0.28); padding:4px 10px; white-space:nowrap; }
+.paths-intro{max-width:600px;margin-bottom:36px;}
+.paths-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1.2;color:var(--dark);margin-bottom:14px;}
+.paths-title em{font-style:italic;color:var(--green);}
+.paths-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:rgba(26,22,16,0.55);line-height:1.6;}
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);max-width:1100px;margin:0 auto;}
+.p-card{background:var(--cream);padding:32px 28px;position:relative;transition:background 0.3s;min-height:180px;}
+.p-card:hover{background:#faf6ed;}
+.p-n{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--gold);margin-bottom:12px;letter-spacing:0.1em;}
+.p-name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;color:var(--dark);margin-bottom:8px;line-height:1.2;}
+.p-sub{font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(26,22,16,0.55);line-height:1.5;}
 
-/* ABOUT */
-#about { padding:80px 48px; display:grid; grid-template-columns:5fr 7fr; gap:72px; border-top:0.5px solid var(--border); }
-.as { position:sticky; top:90px; align-self:start; }
-.as-lbl { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
-.as-t { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; line-height:1.15; color:var(--dark); margin-bottom:20px; }
-.as-t em { font-style:italic; color:var(--green); }
-.as-p { font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.75; color:rgba(26,22,16,0.6); }
-.ab-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.ab { }
-.ab-n { font-family:'Cormorant Garamond',serif; font-size:34px; color:rgba(26,22,16,0.07); line-height:1; margin-bottom:6px; }
-.ab-t { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--dark); margin-bottom:4px; }
-.ab-s { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:13px; color:var(--muted); line-height:1.6; }
+#events{background:var(--dark);color:#f5f1ea;}
+.ev-wrap{max-width:1100px;margin:0 auto;}
+.ev-h{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:24px;margin-bottom:40px;border-bottom:0.5px solid rgba(245,241,234,0.12);}
+.ev-t{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#f5f1ea;}
+.ev-lbl{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,241,234,0.4);}
+.ev-card{display:grid;grid-template-columns:140px 1fr auto;gap:32px;align-items:center;padding:24px 0;border-bottom:0.5px solid rgba(245,241,234,0.08);}
+.ev-date{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);}
+.ev-name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:#f5f1ea;margin-bottom:4px;}
+.ev-meta{font-size:12px;color:rgba(245,241,234,0.35);letter-spacing:0.04em;}
+.ev-tag{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fog);border:0.5px solid rgba(195,175,225,0.3);padding:5px 12px;white-space:nowrap;}
+.ev-btn{display:inline-block;margin-top:24px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dark);background:var(--fog);padding:13px 28px;text-decoration:none;transition:background 0.2s;}
+.ev-btn:hover{background:#d8c8f5;}
+.ev-placeholder{display:grid;grid-template-columns:140px 1fr;gap:32px;padding:24px 0;border-bottom:0.5px solid rgba(245,241,234,0.08);opacity:0.5;}
+.ev-placeholder .ev-date{color:rgba(245,241,234,0.25);}
+.ph-inline{font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(195,175,225,0.45);font-size:15px;}
+.ph-inline-tag{font-family:'Onest',sans-serif;font-style:normal;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(195,175,225,0.35);display:inline-block;margin-right:10px;}
 
-/* CTA */
-#cta { padding:100px 48px; text-align:center; background:var(--dark); position:relative; overflow:hidden; }
-.cta-glow { position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:500px; height:300px; background:radial-gradient(ellipse, rgba(195,175,225,0.13) 0%, transparent 65%); pointer-events:none; }
-.cta-t { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:#f5f1ea; margin-bottom:10px; position:relative; }
-.cta-t em { font-style:italic; color:var(--fog); }
-.cta-s { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:17px; color:rgba(245,241,234,0.4); margin-bottom:40px; position:relative; }
-.cta-btn { display:inline-block; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--dark); background:var(--fog); padding:14px 36px; text-decoration:none; position:relative; transition:background 0.2s; }
-.cta-btn:hover { background:#d8c8f5; }
+#contact{text-align:center;border-top:1px solid var(--line);}
+.c-t{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--dark);margin-bottom:14px;}
+.c-t em{font-style:italic;color:#6a3d9f;}
+.c-s{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:rgba(26,22,16,0.55);margin-bottom:32px;}
+.c-links{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+.c-link{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);text-decoration:none;border-bottom:0.5px solid var(--green);padding-bottom:3px;}
 
-footer { padding:32px 48px; border-top:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
-.fb { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:14px; color:var(--muted); }
-.fb span { color:var(--green); }
-.fm { font-size:11px; color:rgba(26,22,16,0.3); letter-spacing:0.07em; }
+footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.fb{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--muted);}
+.fm{font-size:11px;color:rgba(26,22,16,0.3);letter-spacing:0.07em;}
 
 @media(max-width:800px){
-  nav{padding:14px 20px;} .nr{display:none;}
-  .hero-txt{padding:0 20px 56px;}
-  #paths{padding:56px 20px;} .pg{grid-template-columns:1fr 1fr;}
-  #manifesto{grid-template-columns:1fr;padding:56px 20px;}
-  #events{padding:56px 20px;}
-  #about{grid-template-columns:1fr;padding:56px 20px;} .as{position:static;}
-  #cta{padding:72px 20px;} footer{padding:20px;flex-direction:column;gap:8px;text-align:center;}
+  nav{padding:14px 20px;}.nav-r{display:none;}
+  .hero-txt{padding:0 20px 50px;}
+  section{padding:60px 20px;}
+  .pg{grid-template-columns:1fr;}
+  .p-card{min-height:auto;}
+  .what-grid{grid-template-columns:1fr;gap:32px;}
+  .ev-card,.ev-placeholder{grid-template-columns:1fr;gap:8px;}
 }
 </style>
 </head>
 <body>
 
 <nav id="nav">
-  <div class="nl">Жизнь как познание</div>
-  <ul class="nr">
-    <li><a href="#paths">Пути</a></li>
-    <li><a href="#events">Встречи</a></li>
-    <li><a href="#about">О клубе</a></li>
+  <div class="logo">Жизнь как познание</div>
+  <ul class="nav-r">
+    <li><a href="#what">встреча</a></li>
+    <li><a href="#paths">пути</a></li>
+    <li><a href="#events">афиша</a></li>
+    <li><a href="#contact">связь</a></li>
   </ul>
-  <a href="#cta" class="nc">Участвовать</a>
 </nav>
 
-<!-- HERO — события мыши идут на весь блок, текст pointer-events:none -->
 <section id="hero">
-  <div class="mosaic">
-    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=72" alt="" loading="eager">
-    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=700&q=72" alt="" loading="eager">
-    <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=700&q=72" alt="" loading="lazy">
-    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=700&q=72" alt="" loading="lazy">
+  <div class="hero-mosaic">
+    <!-- Горы / природа -->
+    <div class="mc mc1"></div>
+    <!-- Книги / тёплый свет -->
+    <div class="mc mc2"></div>
+    <!-- Океан / вода -->
+    <div class="mc mc3"></div>
+    <!-- Ночное небо / звёзды -->
+    <div class="mc mc4"></div>
   </div>
   <div class="hero-ov"></div>
   <canvas id="fog"></canvas>
-
   <div class="hero-txt">
-    <div class="h-eye">клуб · Санкт-Петербург</div>
+    <div class="h-eye">Санкт-Петербург</div>
     <div class="h-t">Жизнь<br>как <em>познание</em></div>
-    <div class="h-s">пространство для тех, кто живёт именно так</div>
-    <div class="h-fog-note">рассей туман непознанного — проведи курсором</div>
+    <div class="h-s">для тех, кто живёт именно так</div>
+    <div class="h-note">проведи курсором — рассеется туман непознанного</div>
   </div>
 </section>
 
-<!-- PATHS -->
+<section id="manifesto" class="rv">
+  <div class="lbl">кто мы</div>
+  <p class="m-text">Есть люди, для которых жизнь — это <em>не задача, которую нужно решить</em>. Это процесс, в котором интересно быть.</p>
+  <p class="m-text">Они не ищут готовых ответов. Живут через тело и через книги, через разговор и через тишину, через любовь и через то, что не объясняется.</p>
+  <p class="m-fine">Мы собираемся для них. Небольшой круг, большой стол, тёплый свет — и три часа настоящего разговора. Без алкоголя, без программ саморазвития, без давления.</p>
+</section>
+
+<section id="what">
+  <div class="what-grid">
+    <div class="rv">
+      <div class="lbl">встреча</div>
+      <div class="what-title">Большой стол.<br><em>Тёплый свет.</em><br>Часы, которые<br>останавливаются.</div>
+    </div>
+    <div class="rv" style="transition-delay:.1s">
+      <div class="what-list">
+        <div class="what-item">Не больше пятнадцати человек за одним столом</div>
+        <div class="what-item">У каждого вечера — своя тема и свой путь</div>
+        <div class="what-item">Камра, чай или какао — без алкоголя</div>
+        <div class="what-item">Часы останавливаются ровно в 13:00 и запускаются на финале</div>
+        <div class="what-item">Монеты Объединённого Королевства — за яркие моменты вечера</div>
+        <div class="what-item">Три часа разговора. Потом — свободное время</div>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1100px;margin:48px auto 0;display:grid;grid-template-columns:2fr 1fr;gap:2px;">
+    <div class="ph what-ph">
+      <div class="ph-tag">заглушка</div>
+      <div class="ph-note">Фотография главного зала с большим столом и часами появится здесь</div>
+      <div class="ph-when">после первой встречи · 16 мая</div>
+    </div>
+    <div class="ph what-ph">
+      <div class="ph-tag">заглушка</div>
+      <div class="ph-note">Фотография уголка «Кофейная гуща»</div>
+      <div class="ph-when">после первой встречи</div>
+    </div>
+  </div>
+</section>
+
 <section id="paths">
-  <div class="rv">
-    <div class="sec-lbl">шесть путей</div>
-    <div class="sec-t">Каждый познаёт <em>по-своему</em></div>
+  <div class="paths-intro rv">
+    <div class="lbl">пути</div>
+    <div class="paths-title">Каждый приходит <em>своим путём</em></div>
+    <div class="paths-sub">Шесть способов исследовать жизнь. Каждый вечер — один из них. Узнай свой.</div>
   </div>
-  <div class="pg">
-    <div class="pc rv">
-      <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&q=72" alt="" loading="lazy">
-      <div class="pc-ov"></div><div class="pc-n">01</div>
-      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через тело</div><div class="pc-sub">движение, ощущения, физика существования</div></div>
-    </div>
-    <div class="pc rv" style="transition-delay:.08s">
-      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&q=72" alt="" loading="lazy">
-      <div class="pc-ov"></div><div class="pc-n">02</div>
-      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через другого</div><div class="pc-sub">диалог, отношения, зеркало человека</div></div>
-    </div>
-    <div class="pc rv" style="transition-delay:.16s">
-      <img src="https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?w=500&q=72" alt="" loading="lazy">
-      <div class="pc-ov"></div><div class="pc-n">03</div>
-      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через психологию</div><div class="pc-sub">внутреннее пространство, паттерны, глубина</div></div>
-    </div>
-    <div class="pc rv" style="transition-delay:.1s">
-      <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&q=72" alt="" loading="lazy">
-      <div class="pc-ov"></div><div class="pc-n">04</div>
-      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через искусство</div><div class="pc-sub">книги, музыка, кино, то что остаётся</div></div>
-    </div>
-    <div class="pc rv" style="transition-delay:.18s">
-      <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=500&q=72" alt="" loading="lazy">
-      <div class="pc-ov"></div><div class="pc-n">05</div>
-      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через место</div><div class="pc-sub">город, путешествие, пространство, Петербург</div></div>
-    </div>
-    <div class="pc rv" style="transition-delay:.26s">
-      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=500&q=72" alt="" loading="lazy">
-      <div class="pc-ov"></div><div class="pc-n">06</div>
-      <div class="pc-info"><div class="pc-tag">путь</div><div class="pc-name">Через магию</div><div class="pc-sub">взаимодействие со вселенной, знаки, невидимое</div></div>
-    </div>
+  <div class="pg rv" style="transition-delay:.1s">
+    <div class="p-card"><div class="p-n">I</div><div class="p-name">через тело</div><div class="p-sub">движение, ощущения, физика существования</div></div>
+    <div class="p-card"><div class="p-n">II</div><div class="p-name">через другого</div><div class="p-sub">диалог, отношения, зеркало человека</div></div>
+    <div class="p-card"><div class="p-n">III</div><div class="p-name">через психологию</div><div class="p-sub">внутреннее, паттерны, глубина</div></div>
+    <div class="p-card"><div class="p-n">IV</div><div class="p-name">через искусство</div><div class="p-sub">книги, музыка, кино — то, что остаётся</div></div>
+    <div class="p-card"><div class="p-n">V</div><div class="p-name">через место</div><div class="p-sub">город, путешествие, Петербург</div></div>
+    <div class="p-card"><div class="p-n">VI</div><div class="p-name">через магию</div><div class="p-sub">взаимодействие со вселенной, знаки</div></div>
   </div>
 </section>
 
-<!-- MANIFESTO -->
-<section id="manifesto">
-  <div class="mimg rv">
-    <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=700&q=72" alt="" loading="lazy">
-    <div class="mimg-cap">встреча в пространстве · Санкт-Петербург</div>
-  </div>
-  <div class="mt rv" style="transition-delay:.1s">
-    <div class="mt-lbl">манифест</div>
-    <div class="mt-title">Туман непознанного<br>не пугает — <em>притягивает</em></div>
-    <p class="mt-p">Есть люди, для которых жизнь — это не задача. Это процесс, в котором интересно находиться.</p>
-    <p class="mt-p">Они не ищут готовых ответов. Они исследуют — через тело и через книги, через разговор и через тишину.</p>
-    <p class="mt-p">Клуб «Жизнь как познание» — место где твой склад ума не странность, а норма.</p>
-    <div class="mq">
-      <div class="mq-t">«Всякое существо рождается для того, чтобы познавать мир.»</div>
-      <div class="mq-a">— Макс Фрай</div>
-    </div>
-  </div>
-</section>
-
-<!-- EVENTS -->
 <section id="events">
-  <div class="ev-h rv">
-    <div class="ev-t">Ближайшие встречи</div>
-    <a href="#" class="ev-a">Все встречи</a>
-  </div>
-  <div class="er rv" style="transition-delay:.1s">
-    <div class="er-d">16 мая · 13:00</div>
-    <div><div class="er-n">Мои любимые цитаты Макса Фрая</div><div class="er-m">вечер историй · до 15 человек · 990 ₽</div></div>
-    <div class="er-tag">Через искусство</div>
-  </div>
-  <div class="er rv" style="transition-delay:.2s">
-    <div class="er-d">27 июня</div>
-    <div><div class="er-n">Вторая встреча</div><div class="er-m">тема будет объявлена</div></div>
-    <div class="er-tag">Скоро</div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="as rv">
-    <div class="as-lbl">о пространстве</div>
-    <div class="as-t">Камерный клуб<br>в центре <em>Петербурга</em></div>
-    <p class="as-p">Небольшие встречи — не больше пятнадцати человек. Большой стол, тёплый свет, живой разговор.</p>
-  </div>
-  <div class="ab-grid rv" style="transition-delay:.1s">
-    <div class="ab"><div class="ab-n">15</div><div class="ab-t">Участников максимум</div><div class="ab-s">Маленький круг — чтобы каждый голос был услышан</div></div>
-    <div class="ab"><div class="ab-n">6</div><div class="ab-t">Путей познания</div><div class="ab-s">Каждый вечер — свой путь, своя глубина</div></div>
-    <div class="ab"><div class="ab-n">∞</div><div class="ab-t">Монеты Ехо</div><div class="ab-s">Переходят между встречами — копи и трать когда хочешь</div></div>
-    <div class="ab"><div class="ab-n">990</div><div class="ab-t">Рублей за вечер</div><div class="ab-s">Включает напитки — камру, чай или какао</div></div>
+  <div class="ev-wrap">
+    <div class="ev-h rv">
+      <div class="ev-t">Ближайшая встреча</div>
+      <div class="ev-lbl">афиша</div>
+    </div>
+    <div class="ev-card rv" style="transition-delay:.1s">
+      <div class="ev-date">16 мая · сб · 13:00</div>
+      <div>
+        <div class="ev-name">Мои любимые цитаты Макса Фрая</div>
+        <div class="ev-meta">вечер историй · до 15 человек · центр Петербурга</div>
+      </div>
+      <div class="ev-tag">через искусство</div>
+    </div>
+    <div class="ev-placeholder rv" style="transition-delay:.2s">
+      <div class="ev-date">27 июня</div>
+      <div><span class="ph-inline-tag">скоро</span><span class="ph-inline">— название встречи появится за две недели до даты</span></div>
+    </div>
+    <div class="ev-placeholder rv" style="transition-delay:.3s">
+      <div class="ev-date">—</div>
+      <div><span class="ph-inline-tag">пока пусто</span><span class="ph-inline">— афиша обновляется по мере подготовки встреч</span></div>
+    </div>
+    <a href="#contact" class="ev-btn rv" style="transition-delay:.4s">Узнать о встрече 16 мая</a>
   </div>
 </section>
 
-<!-- CTA -->
-<section id="cta">
-  <div class="cta-glow"></div>
-  <div class="cta-t rv">Войди в <em>туман</em></div>
-  <div class="cta-s rv">Регистрация на ближайшую встречу — 16 мая</div>
-  <a href="#" class="cta-btn rv">Зарегистрироваться · 990 ₽</a>
+<section id="contact" class="rv">
+  <div class="lbl">связь</div>
+  <div class="c-t">Если это <em>про тебя</em></div>
+  <div class="c-s">напиши — расскажем подробности встречи и пришлём адрес</div>
+  <div class="c-links">
+    <a href="#" class="c-link">Telegram</a>
+    <a href="#" class="c-link">Почта</a>
+  </div>
 </section>
 
 <footer>
-  <div class="fb">Жизнь как познание · <span>Санкт-Петербург</span></div>
+  <div class="fb">Жизнь как познание · Санкт-Петербург</div>
   <div class="fm">© 2026 · клуб</div>
 </footer>
 
 <script>
-// NAV scroll
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('sc', window.scrollY > 40);
-}, {passive:true});
-
-// Scroll reveal
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
-}, {threshold: 0.1});
-document.querySelectorAll('.rv').forEach(el => io.observe(el));
-
-// FOG — lightweight version
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('sc',window.scrollY>40);},{passive:true});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:0.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 (function(){
   const hero = document.getElementById('hero');
   const canvas = document.getElementById('fog');
   const ctx = canvas.getContext('2d');
-  const CELL = 32; // larger cells = fewer to draw = faster
+  // Larger cells = softer, cloud-like texture
+  const CELL = 44;
   let cols, rows, cells = [], done = false, dissolving = false;
 
-  function resize(){
+  function resize() {
     canvas.width = hero.offsetWidth;
     canvas.height = hero.offsetHeight;
     init();
   }
 
-  function init(){
+  function init() {
     cols = Math.ceil(canvas.width / CELL) + 1;
     rows = Math.ceil(canvas.height / CELL) + 1;
     cells = [];
-    for(let r=0; r<rows; r++){
-      for(let c=0; c<cols; c++){
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
         // edge factor: 0 at border, 1 at center
         const ex = Math.min(c, cols-1-c) / (cols/2);
         const ey = Math.min(r, rows-1-r) / (rows/2);
-        cells.push({ x:c*CELL, y:r*CELL, a:1.0, ef:Math.min(ex,ey) });
+        const ef = Math.min(ex, ey);
+        // cloud residual: edges keep soft wisps, corners more
+        const cloudRes = ef < 0.35 ? 0.45 * Math.pow(1 - ef/0.35, 1.4) : 0;
+        cells.push({ x: c*CELL, y: r*CELL, a: 1.0, ef, cloudRes });
       }
     }
     draw();
   }
 
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Use blur for soft cloud effect
+    ctx.save();
+    ctx.filter = 'blur(12px)';
     cells.forEach(cl => {
-      if(cl.a < 0.02) return;
-      ctx.fillStyle = `rgba(195,175,225,${cl.a * 0.8})`;
-      ctx.fillRect(cl.x, cl.y, CELL+1, CELL+1);
+      if (cl.a < 0.015) return;
+      const alpha = cl.a * 0.88;
+      // Slightly varied fog color — hints of lavender and white
+      ctx.fillStyle = `rgba(210,195,238,${alpha})`;
+      // Draw as rounded rect for cloud feel
+      const pad = CELL * 0.15;
+      ctx.beginPath();
+      ctx.roundRect(cl.x + pad, cl.y + pad, CELL - pad*2, CELL - pad*2, CELL * 0.3);
+      ctx.fill();
     });
+    ctx.restore();
   }
 
-  function clearedPct(){
-    return cells.filter(c => c.a < 0.4).length / cells.length;
+  function clearedPct() {
+    return cells.filter(c => c.a < 0.5).length / cells.length;
   }
 
-  function startDissolve(){
-    if(dissolving) return;
+  function startDissolve() {
+    if (dissolving) return;
     dissolving = true;
-    function frame(){
-      if(done) return;
+    function frame() {
+      if (done) return;
       let any = false;
       cells.forEach(cl => {
-        if(cl.a < 0.01) return;
-        // edges keep a residual haze
-        const res = cl.ef < 0.2 ? 0.28 * (1 - cl.ef/0.2) : 0;
-        if(cl.a <= res + 0.01) return;
-        cl.a = Math.max(res, cl.a - 0.014 - cl.ef * 0.02);
-        any = true;
+        if (cl.a <= cl.cloudRes + 0.01) return;
+        // Center dissolves fast, edges slow down and stop at cloudRes
+        const speed = 0.018 + cl.ef * 0.028;
+        cl.a = Math.max(cl.cloudRes, cl.a - speed);
+        if (cl.a > cl.cloudRes + 0.01) any = true;
       });
       draw();
-      if(any){ requestAnimationFrame(frame); }
-      else {
-        done = true;
-        canvas.style.transition = 'opacity 1s';
-        canvas.style.opacity = '0';
-      }
+      if (any) requestAnimationFrame(frame);
+      else done = true; // leave cloud remnants, no full hide
     }
     requestAnimationFrame(frame);
   }
 
-  function clearAt(mx, my){
-    if(done) return;
-    const R = 72;
+  function clearAt(mx, my) {
+    if (done) return;
+    // Large radius — 3-5 swipes clear the center
+    const R = 110;
     cells.forEach(cl => {
-      if(cl.a < 0.01) return;
+      if (cl.a < 0.01) return;
       const dx = cl.x + CELL/2 - mx;
       const dy = cl.y + CELL/2 - my;
       const d = Math.sqrt(dx*dx + dy*dy);
-      if(d < R) cl.a = Math.max(0, cl.a - 0.25*(1-d/R));
+      if (d < R) {
+        const strength = 0.35 * (1 - d/R);
+        cl.a = Math.max(cl.cloudRes, cl.a - strength);
+      }
     });
     draw();
-    if(!dissolving && clearedPct() >= 0.27) startDissolve();
+    // Trigger auto-dissolve after just ~5% cleared
+    if (!dissolving && clearedPct() >= 0.05) startDissolve();
   }
 
-  // Events on hero (text has pointer-events:none so no blocking)
   hero.addEventListener('mousemove', e => {
-    if(done) return;
+    if (done) return;
     const r = canvas.getBoundingClientRect();
     clearAt(e.clientX - r.left, e.clientY - r.top);
-  }, {passive:true});
+  }, {passive: true});
 
   hero.addEventListener('touchmove', e => {
-    if(done) return;
+    if (done) return;
     const t = e.touches[0], r = canvas.getBoundingClientRect();
     clearAt(t.clientX - r.left, t.clientY - r.top);
     e.preventDefault();
-  }, {passive:false});
+  }, {passive: false});
 
-  window.addEventListener('resize', resize, {passive:true});
+  window.addEventListener('resize', resize, {passive: true});
   resize();
 })();
 </script>
