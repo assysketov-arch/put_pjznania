@@ -152,11 +152,40 @@ footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-c
   </div>
   <div class="hero-ov"></div>
   <canvas id="fog"></canvas>
+
+  <!-- Надпись на тумане -->
+  <div id="fog-hint" style="
+    position:absolute; inset:0; z-index:5;
+    display:flex; flex-direction:column;
+    justify-content:center; align-items:center;
+    pointer-events:none;
+    transition: opacity 1s ease;
+  ">
+    <div style="
+      font-family:'Cormorant Garamond',serif;
+      font-style:italic;
+      font-size:clamp(22px,3.5vw,42px);
+      color:rgba(255,255,255,0.92);
+      text-align:center;
+      letter-spacing:0.04em;
+      text-shadow:0 2px 24px rgba(80,40,120,0.6);
+      margin-bottom:16px;
+    ">туман непознанного</div>
+    <div style="
+      font-family:'Onest',sans-serif;
+      font-size:12px;
+      letter-spacing:0.22em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.5);
+      text-align:center;
+    ">проведи курсором — рассеется</div>
+  </div>
+
   <div class="hero-txt">
     <div class="h-eye">Санкт-Петербург</div>
     <div class="h-t">Жизнь<br>как <em>познание</em></div>
     <div class="h-s">для тех, кто живёт именно так</div>
-    <div class="h-note">проведи курсором — рассеется туман непознанного</div>
+    
   </div>
 </section>
 
@@ -317,6 +346,9 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   function startDissolve() {
     if (dissolving) return;
     dissolving = true;
+    // Скрыть надпись
+    const hint = document.getElementById('fog-hint');
+    if (hint) hint.style.opacity = '0';
     function frame() {
       if (done) return;
       let any = false;
