@@ -21,8 +21,8 @@ body{background:var(--cream);color:var(--dark);font-family:'Inter',sans-serif;ov
 nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px 42px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,241,234,0.94);backdrop-filter:blur(10px);border-bottom:0.5px solid transparent;transition:border-color 0.3s;}
 nav.sc{border-bottom-color:var(--line);}
 .logo{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:17px;color:var(--dark);}
-.nav-r{display:flex;gap:28px;list-style:none;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;}
-.nav-r a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-r{display:flex;gap:28px;list-style:none;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;align-items:center;}
+.nav-r a{color:rgba(26,22,16,0.72);text-decoration:none;transition:color 0.2s;font-weight:500;}
 .nav-r a:hover{color:var(--dark);}
 
 #hero{position:relative;height:100vh;height:100dvh;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--dark);padding:0;}
@@ -113,6 +113,7 @@ footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-c
   nav{padding:14px 18px;}
   .nav-r{display:none;}
   .logo{font-size:15px;}
+  .burger{display:flex;}
   .hero-txt{padding:24px 20px 40px;}
   section{padding:48px 20px;}
   .lbl{font-size:9px;}
@@ -174,6 +175,64 @@ footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-c
   text-transform: uppercase;
   color: rgba(255,255,255,0.55);
 }
+
+/* ── BURGER MENU ── */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+  z-index: 300;
+}
+.burger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--dark);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(245,241,234,0.98);
+  backdrop-filter: blur(16px);
+  z-index: 250;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-style: italic;
+  color: var(--dark);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--green); }
+.mobile-menu-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--muted);
+  background: none;
+  border: none;
+  padding: 8px;
+  line-height: 1;
+}
 </style>
 </head>
 <body>
@@ -193,7 +252,18 @@ footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-c
     <li><a href="#events">афиша</a></li>
     <li><a href="#contact">связь</a></li>
   </ul>
+  <button class="burger" id="burger" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="menuClose">✕</button>
+  <a href="#what" class="mm-link">встреча</a>
+  <a href="#paths" class="mm-link">пути</a>
+  <a href="#events" class="mm-link">афиша</a>
+  <a href="#contact" class="mm-link">связь</a>
+</div>
 
 <section id="hero">
   <div class="hero-mosaic">
@@ -346,8 +416,8 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
         });
       }
     }
-    // Блокировать скролл пока туман есть
-    document.body.style.overflow = 'hidden';
+    // Canvas уже перехватывает touch/mouse через pointer-events:auto
+    // Overflow не трогаем — скролл работает нормально
   }
 
   function draw() {
@@ -373,6 +443,9 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   function dissolve() {
     if (dissolving) return;
     dissolving = true;
+    // Разблокировать скролл СРАЗУ — до начала анимации
+    document.body.style.overflow = '';
+    document.body.style.overflowX = 'hidden';
     // Скрыть надпись
     label.style.opacity = '0';
 
@@ -438,6 +511,29 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   window.addEventListener('resize', resize, {passive: true});
   resize();
 })();
+
+
+// Burger menu
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuClose = document.getElementById('menuClose');
+
+function openMenu() {
+  mobileMenu.classList.add('open');
+  burger.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  mobileMenu.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+burger.addEventListener('click', openMenu);
+menuClose.addEventListener('click', closeMenu);
+document.querySelectorAll('.mm-link').forEach(a => {
+  a.addEventListener('click', closeMenu);
+});
 
 </script>
 </body>
