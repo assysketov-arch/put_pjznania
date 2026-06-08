@@ -543,7 +543,7 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
     document.body.style.overflowX = 'hidden';
     if (label) label.style.opacity = '0';
 
-    // На мобильном — медленнее, без паузы краёв
+    // На мобильном — медленнее, все ячейки до нуля без резкого прыжка
     const step     = isMobile ? 0.008 : 0.018;
     const edgeStep = isMobile ? 0.004 : 0.025;
     const edgePause = isMobile ? 0 : 3000;
@@ -552,17 +552,25 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
       if (done) return;
       let any = false;
       cells.forEach(cl => {
-        if (cl.a < 0.01) return;
+        if (cl.a < 0.005) { cl.a = 0; return; }
+        // На десктопе края держат дымку; на мобильном всё уходит до нуля
         const residual = (!isMobile && cl.ef < 0.25)
           ? 0.35 * (1 - cl.ef / 0.25) : 0;
-        if (cl.a <= residual + 0.01) return;
+        if (cl.a <= residual + 0.005) return;
         cl.a = Math.max(residual, cl.a - step - cl.ef * edgeStep);
         any = true;
       });
       draw();
       if (any) {
         requestAnimationFrame(frame);
+      } else if (isMobile) {
+        // Мобильный: все ячейки на нуле — просто убираем canvas, без opacity-прыжка
+        canvas.remove();
+        if (label) label.remove();
+        done = true;
+        document.body.style.overflow = '';
       } else {
+        // Десктоп: края держались дымкой — теперь плавный fade
         setTimeout(() => {
           canvas.style.opacity = '0';
           setTimeout(() => {
