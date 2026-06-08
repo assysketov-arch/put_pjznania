@@ -481,18 +481,8 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   const canvas = document.getElementById('fog');
   const label  = document.getElementById('fog-label');
 
-  // На мобильных устройствах туман не запускаем:
-  // полноэкранная анимация тормозит первые секунды и перекрывает
-  // шапку с кнопкой-бургером. Просто убираем слой и открываем страницу.
   const isMobile = window.matchMedia('(max-width: 800px)').matches
                 || ('ontouchstart' in window);
-  if (isMobile) {
-    if (canvas) canvas.remove();
-    if (label)  label.remove();
-    document.body.style.overflow = '';
-    document.body.style.overflowX = 'hidden';
-    return;
-  }
 
   const ctx    = canvas.getContext('2d');
   const CELL   = 40; // крупные ячейки — меньше сетки
@@ -611,8 +601,27 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
     if (done) return;
     const t = e.touches[0];
     clearAt(t.clientX, t.clientY);
-    e.preventDefault();
-  }, {passive: false});
+  }, {passive: true});
+
+  // Мобильный сценарий: первое касание → ждём 1.5с → dissolve()
+  // Бургер (#burger, z-index:300) выше canvas (z-index:999 → снижаем до 100 на мобильном),
+  // поэтому кнопка меню всегда доступна поверх тумана.
+  if (isMobile) {
+    // Опускаем canvas ниже бургера (z-index:300), чтобы меню всегда было доступно
+    canvas.style.zIndex = '100';
+    if (label) label.style.zIndex = '101';
+    // Меняем подсказку — на телефоне нет курсора
+    const sub = label && label.querySelector('.fl-sub');
+    if (sub) sub.textContent = 'коснись — рассеется';
+    // Первое касание → через 1.5с растворяем
+    let touchFired = false;
+    document.addEventListener('touchstart', function onFirstTouch() {
+      if (touchFired) return;
+      touchFired = true;
+      document.removeEventListener('touchstart', onFirstTouch);
+      setTimeout(() => dissolve(), 1500);
+    }, {passive: true});
+  }
 
   window.addEventListener('resize', resize, {passive: true});
   resize();
