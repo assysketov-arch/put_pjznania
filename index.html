@@ -78,7 +78,7 @@ section{padding:80px 42px;}
 .paths-title em{font-style:italic;color:var(--green);}
 .paths-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:rgba(26,22,16,0.55);line-height:1.6;}
 .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);max-width:1100px;margin:0 auto;}
-.p-card{background:var(--cream);padding:32px 28px;position:relative;transition:background 0.3s;min-height:180px;}
+.p-card{background:var(--cream);padding:32px 28px;position:relative;transition:background 0.3s;min-height:180px;display:block;text-decoration:none;color:inherit;}
 .p-card:hover{background:#faf6ed;}
 .p-n{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);margin-bottom:12px;letter-spacing:0.1em;}
 .p-name{font-family:'Playfair Display',serif;font-style:italic;font-size:24px;color:var(--dark);margin-bottom:8px;line-height:1.2;}
@@ -376,6 +376,51 @@ footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-c
   <p class="m-fine">Мы собираемся для них. Небольшой круг, большой стол, тёплый свет — и три часа настоящего разговора. Без алкоголя, без программ саморазвития, без давления.</p>
 </section>
 
+
+<section id="paths">
+  <div class="paths-intro rv">
+    <div class="lbl">пути</div>
+    <div class="paths-title">Каждый приходит <em>своим путём</em></div>
+    <div class="paths-sub">Шесть способов исследовать жизнь. Каждый вечер — один из них. Узнай свой.</div>
+  </div>
+  <div class="pg rv" style="transition-delay:.1s">
+    <a href="path-1.html" class="p-card"><div class="p-n">I</div><div class="p-name">через тело</div><div class="p-sub">движение, ощущения, физика существования</div></a>
+    <a href="path-2.html" class="p-card"><div class="p-n">II</div><div class="p-name">через другого</div><div class="p-sub">диалог, отношения, зеркало человека</div></a>
+    <a href="path-3.html" class="p-card"><div class="p-n">III</div><div class="p-name">через психологию</div><div class="p-sub">внутреннее, паттерны, глубина</div></a>
+    <a href="path-4.html" class="p-card"><div class="p-n">IV</div><div class="p-name">через искусство</div><div class="p-sub">книги, музыка, кино — то, что остаётся</div></a>
+    <a href="path-5.html" class="p-card"><div class="p-n">V</div><div class="p-name">через место</div><div class="p-sub">город, путешествие, Петербург</div></a>
+    <a href="path-6.html" class="p-card"><div class="p-n">VI</div><div class="p-name">через магию</div><div class="p-sub">взаимодействие со вселенной, знаки</div></a>
+  </div>
+</section>
+
+
+<section id="events">
+  <div class="ev-wrap">
+    <div class="ev-h rv">
+      <div class="ev-t">Ближайшая встреча</div>
+      <div class="ev-lbl">афиша</div>
+    </div>
+    <div class="ev-card rv" style="transition-delay:.1s">
+      <div class="ev-date">27 июня · сб · 13:00</div>
+      <div>
+        <div class="ev-name">Мои любимые цитаты Макса Фрая</div>
+        <div class="ev-meta">вечер историй · до 15 человек · центр Петербурга</div>
+      </div>
+      <div class="ev-tag">через искусство</div>
+    </div>
+    <div class="ev-placeholder rv" style="transition-delay:.2s">
+      <div class="ev-date">—</div>
+      <div><span class="ph-inline-tag">скоро</span><span class="ph-inline">— название встречи появится за две недели до даты</span></div>
+    </div>
+    <div class="ev-placeholder rv" style="transition-delay:.3s">
+      <div class="ev-date">—</div>
+      <div><span class="ph-inline-tag">пока пусто</span><span class="ph-inline">— афиша обновляется по мере подготовки встреч</span></div>
+    </div>
+    <a href="#contact" class="ev-btn rv" style="transition-delay:.4s">Узнать о встрече 27 июня</a>
+  </div>
+</section>
+
+
 <section id="what">
   <div class="what-grid" style="padding:0 42px;">
     <div class="rv">
@@ -420,47 +465,6 @@ footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-c
   </div>
 </section>
 
-<section id="paths">
-  <div class="paths-intro rv">
-    <div class="lbl">пути</div>
-    <div class="paths-title">Каждый приходит <em>своим путём</em></div>
-    <div class="paths-sub">Шесть способов исследовать жизнь. Каждый вечер — один из них. Узнай свой.</div>
-  </div>
-  <div class="pg rv" style="transition-delay:.1s">
-    <div class="p-card"><div class="p-n">I</div><div class="p-name">через тело</div><div class="p-sub">движение, ощущения, физика существования</div></div>
-    <div class="p-card"><div class="p-n">II</div><div class="p-name">через другого</div><div class="p-sub">диалог, отношения, зеркало человека</div></div>
-    <div class="p-card"><div class="p-n">III</div><div class="p-name">через психологию</div><div class="p-sub">внутреннее, паттерны, глубина</div></div>
-    <div class="p-card"><div class="p-n">IV</div><div class="p-name">через искусство</div><div class="p-sub">книги, музыка, кино — то, что остаётся</div></div>
-    <div class="p-card"><div class="p-n">V</div><div class="p-name">через место</div><div class="p-sub">город, путешествие, Петербург</div></div>
-    <div class="p-card"><div class="p-n">VI</div><div class="p-name">через магию</div><div class="p-sub">взаимодействие со вселенной, знаки</div></div>
-  </div>
-</section>
-
-<section id="events">
-  <div class="ev-wrap">
-    <div class="ev-h rv">
-      <div class="ev-t">Ближайшая встреча</div>
-      <div class="ev-lbl">афиша</div>
-    </div>
-    <div class="ev-card rv" style="transition-delay:.1s">
-      <div class="ev-date">27 июня · сб · 13:00</div>
-      <div>
-        <div class="ev-name">Мои любимые цитаты Макса Фрая</div>
-        <div class="ev-meta">вечер историй · до 15 человек · центр Петербурга</div>
-      </div>
-      <div class="ev-tag">через искусство</div>
-    </div>
-    <div class="ev-placeholder rv" style="transition-delay:.2s">
-      <div class="ev-date">—</div>
-      <div><span class="ph-inline-tag">скоро</span><span class="ph-inline">— название встречи появится за две недели до даты</span></div>
-    </div>
-    <div class="ev-placeholder rv" style="transition-delay:.3s">
-      <div class="ev-date">—</div>
-      <div><span class="ph-inline-tag">пока пусто</span><span class="ph-inline">— афиша обновляется по мере подготовки встреч</span></div>
-    </div>
-    <a href="#contact" class="ev-btn rv" style="transition-delay:.4s">Узнать о встрече 27 июня</a>
-  </div>
-</section>
 
 <section id="contact" class="rv">
   <div class="lbl">связь</div>
