@@ -502,6 +502,9 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
 
 // ── ТУМАН НЕПОЗНАННОГО ──
+// Техника «скретч-карты»: туман рисуется один раз, мышь стирает круги
+// через destination-out, растворение — CSS-переход прозрачности на композиторе.
+// Главный поток свободен — нет полноэкранных перерисовок ни на движение, ни на dissolve.
 (function() {
   const canvas = document.getElementById('fog');
   const label  = document.getElementById('fog-label');
@@ -519,161 +522,93 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
     return;
   }
 
-  const ctx    = canvas.getContext('2d');
-  const CELL   = 40; // крупные ячейки — меньше сетки
-
-  let cols, rows, cells = [];
+  const ctx = canvas.getContext('2d');
   let done = false, dissolving = false;
 
+  // Грубая сетка только для учёта расчищенной доли — не рисуется
+  const CELL = 80;
+  let cols, rows, total, clearedCount, clearedMap;
+
+  function paintFog() {
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(150, 120, 200, 0.98)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Лёгкая облачная текстура — светлые пятна, рисуются один раз
+    for (let i = 0; i < 26; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const r = 90 + Math.random() * 170;
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, 'rgba(200, 180, 240, 0.28)');
+      g.addColorStop(1, 'rgba(200, 180, 240, 0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+  }
+
   function resize() {
+    if (done || dissolving) return;
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
-    build();
-    draw();
-  }
-
-  function build() {
-    cols = Math.ceil(canvas.width  / CELL) + 1;
-    rows = Math.ceil(canvas.height / CELL) + 1;
-    cells = [];
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const ex = Math.min(c, cols-1-c) / (cols / 2);
-        const ey = Math.min(r, rows-1-r) / (rows / 2);
-        cells.push({
-          x: c * CELL, y: r * CELL,
-          a: 1.0,
-          ef: Math.min(ex, ey)
-        });
-      }
-    }
-    // Canvas уже перехватывает touch/mouse через pointer-events:auto
-    // Overflow не трогаем — скролл работает нормально
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Базовый сплошной слой — полностью закрывает страницу
-    const avg = cells.reduce((s, c) => s + c.a, 0) / cells.length;
-    ctx.fillStyle = `rgba(150, 120, 200, ${avg * 0.98})`;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Лёгкая текстура облаков поверх
-    cells.forEach(cl => {
-      if (cl.a < 0.05) return;
-      ctx.fillStyle = `rgba(200, 180, 240, ${cl.a * 0.3})`;
-      ctx.fillRect(cl.x, cl.y, CELL + 1, CELL + 1);
-    });
-  }
-
-  function clearedPct() {
-    return cells.filter(c => c.a < 0.5).length / cells.length;
+    cols = Math.ceil(canvas.width / CELL);
+    rows = Math.ceil(canvas.height / CELL);
+    total = cols * rows;
+    clearedCount = 0;
+    clearedMap = new Uint8Array(total);
+    paintFog();
   }
 
   function dissolve() {
     if (dissolving) return;
     dissolving = true;
     document.querySelector('.hero-txt').classList.add('reveal');
-    document.body.style.overflow = '';
-    document.body.style.overflowX = 'hidden';
     if (label) label.style.opacity = '0';
+    // CSS-переход (transition: opacity 1.2s ease в стилях #fog) — композитор, без JS-цикла
+    canvas.style.opacity = '0';
+    canvas.style.pointerEvents = 'none';
+    setTimeout(function() {
+      canvas.remove();
+      if (label) label.remove();
+      done = true;
+    }, 1400);
+  }
 
-    // На мобильном — медленнее, все ячейки до нуля без резкого прыжка
-    const step     = isMobile ? 0.008 : 0.018;
-    const edgeStep = isMobile ? 0.004 : 0.025;
-    const edgePause = isMobile ? 0 : 3000;
-
-    function frame() {
-      if (done) return;
-      let any = false;
-      cells.forEach(cl => {
-        if (cl.a < 0.005) { cl.a = 0; return; }
-        // На десктопе края держат дымку; на мобильном всё уходит до нуля
-        const residual = (!isMobile && cl.ef < 0.25)
-          ? 0.35 * (1 - cl.ef / 0.25) : 0;
-        if (cl.a <= residual + 0.005) return;
-        cl.a = Math.max(residual, cl.a - step - cl.ef * edgeStep);
-        any = true;
-      });
-      draw();
-      if (any) {
-        requestAnimationFrame(frame);
-      } else if (isMobile) {
-        // Мобильный: все ячейки на нуле — просто убираем canvas, без opacity-прыжка
-        canvas.remove();
-        if (label) label.remove();
-        done = true;
-        document.body.style.overflow = '';
-      } else {
-        // Десктоп: края держались дымкой — теперь плавный fade
-        setTimeout(() => {
-          canvas.style.opacity = '0';
-          setTimeout(() => {
-            canvas.remove();
-            if (label) label.remove();
-            done = true;
-            document.body.style.overflow = '';
-          }, 1300);
-        }, edgePause);
+  const R = 160;
+  function clearAt(mx, my) {
+    if (done || dissolving) return;
+    // Стираем круг тумана — рисуется только круг, не вся сцена
+    ctx.globalCompositeOperation = 'destination-out';
+    const g = ctx.createRadialGradient(mx, my, 0, mx, my, R);
+    g.addColorStop(0, 'rgba(0, 0, 0, 0.45)');
+    g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(mx, my, R, 0, Math.PI * 2);
+    ctx.fill();
+    // Учёт расчищенного по грубой сетке
+    const half = R * 0.6;
+    const c0 = Math.max(0, Math.floor((mx - half) / CELL));
+    const c1 = Math.min(cols - 1, Math.floor((mx + half) / CELL));
+    const r0 = Math.max(0, Math.floor((my - half) / CELL));
+    const r1 = Math.min(rows - 1, Math.floor((my + half) / CELL));
+    for (let r = r0; r <= r1; r++) {
+      for (let c = c0; c <= c1; c++) {
+        const i = r * cols + c;
+        if (!clearedMap[i]) { clearedMap[i] = 1; clearedCount++; }
       }
     }
-    requestAnimationFrame(frame);
+    if (clearedCount / total >= 0.15) dissolve();
   }
 
-  let drawScheduled = false;
-  function scheduleDraw() {
-    if (drawScheduled) return;
-    drawScheduled = true;
-    requestAnimationFrame(function(){ drawScheduled = false; draw(); });
-  }
-  function clearAt(mx, my) {
-    if (done) return;
-    const R = 160; // большой радиус — 3–5 движений хватит
-    cells.forEach(cl => {
-      if (cl.a < 0.01) return;
-      const dx = cl.x + CELL/2 - mx;
-      const dy = cl.y + CELL/2 - my;
-      const d  = Math.sqrt(dx*dx + dy*dy);
-      if (d < R) {
-        cl.a = Math.max(0, cl.a - 0.5 * (1 - d/R));
-      }
-    });
-    scheduleDraw();
-    if (!dissolving && clearedPct() >= 0.15) dissolve();
-  }
-
-  canvas.addEventListener('mousemove', e => {
-    if (done) return;
+  canvas.addEventListener('mousemove', function(e) {
     clearAt(e.clientX, e.clientY);
   }, {passive: true});
 
-  canvas.addEventListener('touchmove', e => {
-    if (done) return;
+  canvas.addEventListener('touchmove', function(e) {
     const t = e.touches[0];
     clearAt(t.clientX, t.clientY);
   }, {passive: true});
-
-  // Мобильный сценарий: первое касание → ждём 1.5с → dissolve()
-  // Бургер (#burger, z-index:300) выше canvas (z-index:999 → снижаем до 100 на мобильном),
-  // поэтому кнопка меню всегда доступна поверх тумана.
-  if (isMobile) {
-    // Опускаем canvas ниже бургера (z-index:300), чтобы меню всегда было доступно
-    canvas.style.zIndex = '100';
-    canvas.style.pointerEvents = 'none';
-    if (label) label.style.zIndex = '101';
-    // Меняем подсказку — на телефоне нет курсора
-    const sub = label && label.querySelector('.fl-sub');
-    if (sub) sub.textContent = 'коснись — рассеется';
-    // Первое касание → через 1.5с растворяем
-    let touchFired = false;
-    document.addEventListener('touchstart', function onFirstTouch() {
-      if (touchFired) return;
-      touchFired = true;
-      document.removeEventListener('touchstart', onFirstTouch);
-      setTimeout(() => dissolve(), 1500);
-    }, {passive: true});
-  }
 
   window.addEventListener('resize', resize, {passive: true});
   resize();
