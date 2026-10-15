@@ -110,6 +110,7 @@ section{padding:80px 42px;}
 .ev-tag{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fog);border:0.5px solid rgba(195,175,225,0.3);padding:5px 12px;white-space:nowrap;}
 .ev-btn{display:inline-block;margin-top:24px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dark);background:var(--fog);padding:13px 28px;text-decoration:none;transition:background 0.2s;}
 .ev-btn:hover{background:#d8c8f5;}
+.ev-note{font-family:'Playfair Display',serif;font-size:20px;line-height:1.55;color:#f5f1ea;max-width:650px;}
 .ev-placeholder{display:grid;grid-template-columns:140px 1fr;gap:32px;padding:24px 0;border-bottom:0.5px solid rgba(245,241,234,0.08);opacity:0.5;}
 .ev-placeholder .ev-date{color:rgba(245,241,234,0.25);}
 .ph-inline{font-family:'Playfair Display',serif;font-style:italic;color:rgba(195,175,225,0.45);font-size:15px;}
@@ -121,6 +122,8 @@ section{padding:80px 42px;}
 .c-s{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:rgba(26,22,16,0.55);margin-bottom:32px;}
 .c-links{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
 .c-link{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);text-decoration:none;border-bottom:0.5px solid var(--green);padding-bottom:3px;}
+.c-qr{display:inline-flex;flex-direction:column;align-items:center;gap:8px;margin-top:28px;color:var(--green);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;}
+.c-qr img{width:112px;height:112px;padding:7px;background:#fff;box-sizing:border-box;}
 
 footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
 .fb{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--muted);}
@@ -411,26 +414,11 @@ footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-c
 <section id="events">
   <div class="ev-wrap">
     <div class="ev-h rv">
-      <div class="ev-t">Ближайшая встреча</div>
+      <div class="ev-t">Новые встречи</div>
       <div class="ev-lbl">афиша</div>
     </div>
-    <div class="ev-card rv" style="transition-delay:.1s">
-      <div class="ev-date">23 июля · чт · 18:30</div>
-      <div>
-        <div class="ev-name">Анапанасати — дыхательная практика</div>
-        <div class="ev-meta">ведёт Алексей · первое занятие · Вознесенский пр., 23</div>
-      </div>
-      <div class="ev-tag">через тело</div>
-    </div>
-    <div class="ev-placeholder rv" style="transition-delay:.2s">
-      <div class="ev-date">—</div>
-      <div><span class="ph-inline-tag">скоро</span><span class="ph-inline">— название встречи появится за две недели до даты</span></div>
-    </div>
-    <div class="ev-placeholder rv" style="transition-delay:.3s">
-      <div class="ev-date">—</div>
-      <div><span class="ph-inline-tag">пока пусто</span><span class="ph-inline">— афиша обновляется по мере подготовки встреч</span></div>
-    </div>
-    <a href="https://t.me/AlexeyVartanov" target="_blank" rel="noopener" class="ev-btn rv" style="transition-delay:.4s">Записаться в Telegram</a>
+    <div class="ev-note rv" style="transition-delay:.1s">Готовим следующие встречи. Когда определим даты, расскажем о них здесь и в Telegram-канале.</div>
+    <a href="https://t.me/CoubOfInterest" target="_blank" rel="noopener" class="ev-btn rv" style="transition-delay:.2s">Смотреть анонсы в Telegram</a>
   </div>
 </section>
 
@@ -483,11 +471,14 @@ footer{padding:32px 42px;border-top:1px solid var(--line);display:flex;justify-c
 <section id="contact" class="rv">
   <div class="lbl">связь</div>
   <div class="c-t">Если это <em>про тебя</em></div>
-  <div class="c-s">напиши — расскажем подробности встречи и пришлём адрес</div>
+  <div class="c-s">о ближайших встречах расскажем в Telegram-канале</div>
   <div class="c-links">
     <a href="https://t.me/CoubOfInterest" target="_blank" rel="noopener" class="c-link">Telegram</a>
-    <a href="#" class="c-link">Почта</a>
   </div>
+  <a href="https://t.me/CoubOfInterest" target="_blank" rel="noopener" class="c-qr" aria-label="Открыть Telegram-канал Жизнь как познание">
+    <img src="images/telegram-qr.svg" alt="QR-код Telegram-канала Жизнь как познание" width="112" height="112">
+    <span>Telegram-канал</span>
+  </a>
 </section>
 
 <footer>
@@ -642,3 +633,4 @@ document.querySelectorAll('.mm-link').forEach(a => {
 </script>
 </body>
 </html>
+
